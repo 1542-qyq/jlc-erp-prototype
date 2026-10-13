@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户资料卡</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #f5f6fa;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .profile-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid #f0f0f0;
+    }
+
+    .info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .name-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .badges {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .badge-enterprise {
+      background: #e74c3c;
+    }
+
+    .badge-crown-blue {
+      background: #3498db;
+    }
+
+    .badge-crown-dark {
+      background: #2c5aa0;
+    }
+
+    .customer-id {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #1a1a1a;
+      font-weight: 600;
+      line-height: 1.6;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background: #fafafa;
+      margin-bottom: 12px;
+    }
+
+    .view-more {
+      font-size: 14px;
+      color: #333;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+
+    .view-more:hover {
+      color: #2c5aa0;
+    }
+
+    .view-more::after {
+      content: ">";
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-card">
+    <img src="file:///C:/Users/jlc/.trae-cn/attachments/67d0539e-c108-4060-98fd-abc5d6dc2d02_428440fe-a73d-48f8-9888-c496e2335e22_image.png" alt="头像" class="avatar">
+    <div class="info">
+      <div class="name-row" style="">
+        <span class="name">张张测试</span>
+        <div class="badges">
+          <span class="badge badge-enterprise">企</span>
+          <span class="badge badge-crown-blue">♛</span>
+          <span class="badge badge-crown-dark">♛</span>
+        </div>
+      </div>
+      <div class="customer-id" style="">客编:4221685A</div>
+      <div class="desc" style="">
+        扩展达人张张，2025年度开源达人，2024开源达人<br></div>
+      
+        发大财，行大运
+      <a href="#" class="view-more" style="">查看更多</a>
+    </div>
+  </div>
+
+
+</body></html>

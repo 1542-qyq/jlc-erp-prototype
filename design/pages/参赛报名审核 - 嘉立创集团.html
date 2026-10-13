@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>参赛报名审核 - 嘉立创集团</title>
+    <style id="theme-vars">
+:root {
+  /* === Semantic Aliases (required by apply-html-head-contract.mjs) === */
+  --jlc-background: #f0f2f5;       /* sampled: overall page background */
+  --jlc-foreground: #333333;      /* sampled: primary text color */
+  --jlc-card: #ffffff;             /* sampled: card/content area background */
+  --jlc-primary: #1890ff;          /* sampled: primary blue for links, buttons, active states */
+  --jlc-border: #e8e8e8;           /* sampled: table and divider borders */
+  --jlc-muted: #595959;            /* sampled: secondary text color */
+  --jlc-radius-sm: 4px;
+  --jlc-radius-md: 4px;
+  --jlc-radius-lg: 8px;
+
+  /* === Extended Palette === */
+  --jlc-header-bg: #ffffff;       /* sampled: header bar background */
+  --jlc-header-text: #4a4a4a;      /* sampled: header nav link text */
+  --jlc-sidebar-bg: #f0f2f5;       /* sampled: sidebar background */
+  --jlc-sidebar-text: #333333;     /* sampled: sidebar menu text */
+  --jlc-sidebar-active-bg: #e6f7ff;  /* sampled: active menu item background */
+  --jlc-sidebar-active-border: #1890ff; /* sampled: active menu left border */
+  --jlc-table-header-bg: #fafafa;  /* sampled: table header background */
+  --jlc-table-row-even: #fafafa;   /* sampled: even row background */
+  --jlc-table-row-odd: #ffffff;    /* sampled: odd row background */
+  --jlc-table-row-hover: #f5f5f5;  /* sampled: hover row background */
+  --jlc-text-secondary: #595959;   /* sampled: secondary text */
+  --jlc-text-tertiary: #8c8c8c;    /* sampled: tertiary/placeholder text */
+  --jlc-link: #1890ff;             /* sampled: link blue */
+  --jlc-success: #52c41a;          /* sampled: published/success green */
+  --jlc-success-bg: #f6ffed;       /* sampled: success tag background */
+  --jlc-warning: #faad14;          /* sampled: warning/pending orange */
+  --jlc-warning-bg: #fffbe6;       /* sampled: warning tag background */
+  --jlc-default-tag: #8c8c8c;      /* sampled: default/neutral tag */
+  --jlc-default-tag-bg: #fafafa;   /* sampled: default tag background */
+  --jlc-btn-default-bg: #ffffff;   /* sampled: default button background */
+  --jlc-btn-default-border: #d9d9d9; /* sampled: default button border */
+  --jlc-pagination-active-bg: #1890ff; /* sampled: active page button */
+  --jlc-pagination-active-text: #ffffff; /* sampled: active page text */
+  --jlc-input-bg: #ffffff;         /* sampled: input field background */
+  --jlc-input-border: #d9d9d9;     /* sampled: input field border */
+  --jlc-tag-blue-bg: #e6f7ff;      /* sampled: blue tag background */
+  --jlc-tag-blue-text: #1890ff;    /* sampled: blue tag text */
+  --jlc-tag-green-bg: #f6ffed;     /* sampled: green tag background */
+  --jlc-tag-green-text: #52c41a;   /* sampled: green tag text */
+  --jlc-tag-orange-bg: #fff7e6;    /* sampled: orange tag background */
+  --jlc-tag-orange-text: #fa8c16;  /* sampled: orange tag text */
+  --jlc-tag-gray-bg: #fafafa;      /* sampled: gray tag background */
+  --jlc-tag-gray-text: #8c8c8c;    /* sampled: gray tag text */
+
+  /* === Typography === */
+  --jlc-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --jlc-font-size-base: 14px;
+  --jlc-font-size-sm: 12px;
+  --jlc-font-size-header: 13px;
+  --jlc-line-height-base: 1.5;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--jlc-background);
+    --color-foreground: var(--jlc-foreground);
+    --color-card: var(--jlc-card);
+    --color-primary: var(--jlc-primary);
+    --color-muted: var(--jlc-muted);
+    --color-border: var(--jlc-border);
+    --color-ring: var(--jlc-link);
+    --radius-sm: var(--jlc-radius-sm);
+    --radius-md: var(--jlc-radius-md);
+    --radius-lg: var(--jlc-radius-lg);
+  }
+  @layer base {
+    body { background: var(--jlc-background); color: var(--jlc-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--jlc-background); }
+      .text-background { color: var(--jlc-background); }
+      .border-background { border-color: var(--jlc-background); }
+      .ring-background { --tw-ring-color: var(--jlc-background); }
+      .bg-foreground { background-color: var(--jlc-foreground); }
+      .text-foreground { color: var(--jlc-foreground); }
+      .border-foreground { border-color: var(--jlc-foreground); }
+      .ring-foreground { --tw-ring-color: var(--jlc-foreground); }
+      .bg-card { background-color: var(--jlc-card); }
+      .text-card { color: var(--jlc-card); }
+      .border-card { border-color: var(--jlc-card); }
+      .ring-card { --tw-ring-color: var(--jlc-card); }
+      .bg-primary { background-color: var(--jlc-primary); }
+      .text-primary { color: var(--jlc-primary); }
+      .border-primary { border-color: var(--jlc-primary); }
+      .ring-primary { --tw-ring-color: var(--jlc-primary); }
+      .bg-muted { background-color: var(--jlc-muted); }
+      .text-muted { color: var(--jlc-muted); }
+      .border-muted { border-color: var(--jlc-muted); }
+      .ring-muted { --tw-ring-color: var(--jlc-muted); }
+      .bg-border { background-color: var(--jlc-border); }
+      .text-border { color: var(--jlc-border); }
+      .border-border { border-color: var(--jlc-border); }
+      .ring-border { --tw-ring-color: var(--jlc-border); }
+      .bg-ring { background-color: var(--jlc-link); }
+      .text-ring { color: var(--jlc-link); }
+      .border-ring { border-color: var(--jlc-link); }
+      .ring-ring { --tw-ring-color: var(--jlc-link); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+
+<!-- regionGroup: header -->
+<header class="topbar">
+  <div class="tb-left">
+    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" rx="5" fill="#1890ff"/><text x="13" y="17" text-anchor="middle" font-size="9.5" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">JLC</text></svg>
+    <span class="logo-text">嘉立创集团</span>
+    <svg class="tb-burger" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11"/></svg>
+  </div>
+  <nav class="tb-nav">
+    <span class="nav-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L8 2.5l5.5 5"/><path d="M4 7.2V13.5h8V7.2"/></svg>员工之家</span>
+    <span class="nav-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4.5" width="12" height="9" rx="1"/><path d="M2 7h12M6.5 4.5v-2h3v2"/></svg>小嘉办公助手</span>
+    <span class="nav-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="10" height="7" rx="1.5"/><path d="M8 5V3M6.5 3h3"/><circle cx="6" cy="8.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="10" cy="8.5" r="0.8" fill="currentColor" stroke="none"/></svg>智能助手</span>
+    <span class="nav-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="2.5" width="9" height="11" rx="1"/><path d="M5.5 5.5h5M5.5 8h5M5.5 10.5h3"/></svg>我的工单</span>
+    <span class="nav-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.5c2.3 0 3.8 1.7 3.8 4v2.6l1.2 2H3l1.2-2V6.5c0-2.3 1.5-4 3.8-4z"/><path d="M6.8 13.2a1.3 1.3 0 0 0 2.4 0"/></svg>我的待办<span class="nav-badge">99+</span></span>
+    <span class="nav-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 3.5h11v7H8L4.5 13v-2.5h-2z"/></svg>消息</span>
+    <span class="nav-item nav-user"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="5.5" r="2.5"/><path d="M3.5 13.5c0.7-2.4 2.4-3.6 4.5-3.6s3.8 1.2 4.5 3.6"/></svg>软件部测试组<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span>
+    <span class="nav-item">退出</span>
+  </nav>
+</header>
+
+<div class="layout">
+  <!-- regionGroup: sidebar -->
+  <aside class="sidebar">
+    <div class="side-search">
+      <svg class="search-ico" viewBox="0 0 14 14" fill="none" stroke-width="1.3" stroke-linecap="round"><circle cx="6" cy="6" r="4"/><path d="M9.2 9.2l3 3"/></svg>
+      <input type="text" placeholder="请输入">
+    </div>
+    <nav class="menu">
+      <div class="menu-item lv0 parent-open"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L6 4l3.5 3.5"/></svg>国内EDA</div>
+      <div class="menu-item lv1">大学计划管理</div>
+      <div class="menu-item lv1 parent-open"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L6 4l3.5 3.5"/></svg>活动管理</div>
+      <div class="menu-item lv2">活动页配置管理</div>
+      <div class="menu-item lv2 active">参赛报名审核</div>
+      <div class="menu-item lv2">星火报名审核</div>
+      <div class="menu-item lv2">耗材申请审核</div>
+      <div class="menu-item lv2">外包需求管理</div>
+      <div class="menu-item lv2">悬赏报名审核</div>
+      <div class="menu-item lv2">用户想法审核</div>
+      <div class="menu-item lv2">邀请记录管理</div>
+      <div class="menu-item lv2">领券截图审核</div>
+      <div class="menu-item lv2">投诉管理</div>
+      <div class="menu-item lv1">合作专区管理</div>
+      <div class="menu-item lv0"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>文件管理</div>
+      <div class="menu-item lv0"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>评论管理</div>
+      <div class="menu-item lv0"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>认证管理</div>
+      <div class="menu-item lv0"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>积分管理</div>
+      <div class="menu-item lv0"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>星火计划管理</div>
+      <div class="menu-item lv0"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>优惠券管理</div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <!-- tab bar -->
+    <div class="tabbar">
+      <svg class="tb-caret" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+      <div class="tab">参赛报名审核<span class="tab-x">×</span></div>
+    </div>
+
+    <!-- regionGroup: filter-panel -->
+    <section class="filter-panel">
+      <div class="ff"><label>报名用户：</label><span class="in-wrap has-prefix"><svg class="in-prefix" viewBox="0 0 14 14" fill="none" stroke-width="1.2" stroke-linecap="round"><circle cx="7" cy="4.8" r="2.2"/><path d="M2.8 12c0.6-2.1 2.2-3.2 4.2-3.2s3.6 1.1 4.2 3.2"/></svg><input type="text" placeholder="姓名/用户名/邮箱/手机"></span></div>
+      <div class="ff"><label>成员用户名：</label><span class="in-wrap"><input type="text" placeholder="用户名/邮箱"></span></div>
+      <div class="ff"><label>活动状态：</label><span class="sel-wrap"><select><option>全部</option></select><svg class="sel-arrow" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span></div>
+      <div class="ff"><label>赛事名称：</label><span class="sel-wrap"><select><option>cqv测试活动</option></select><svg class="sel-arrow" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span></div>
+      <div class="ff"><label>工程状态：</label><span class="sel-wrap"><select><option>全部</option></select><svg class="sel-arrow" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span></div>
+      <div class="ff"><label>审核状态：</label><span class="sel-wrap"><select><option>全部</option></select><svg class="sel-arrow" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span></div>
+      <div class="ff"><label>参赛方式：</label><span class="sel-wrap"><select><option>全部</option></select><svg class="sel-arrow" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span></div>
+      <div class="ff"><label>参赛记录：</label><span class="sel-wrap"><select><option>未删除</option></select><svg class="sel-arrow" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span></div>
+      <div class="ff"><label>补充资料：</label><span class="sel-wrap"><select><option>全部</option></select><svg class="sel-arrow" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span></div>
+      <div class="ff"><label>参赛项目：</label><span class="sel-wrap"><select><option>全部</option></select><svg class="sel-arrow" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span></div>
+      <div class="ff"><label>报告提交状态：</label><span class="sel-wrap"><select><option>全部</option></select><svg class="sel-arrow" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span></div>
+      <div class="ff"><label>报名时间：</label><span class="in-wrap date"><svg class="date-ico" viewBox="0 0 14 14" fill="none" stroke-width="1.2" stroke-linecap="round"><rect x="2" y="3" width="10" height="9" rx="1"/><path d="M2 6h10M5 1.8V4M9 1.8V4"/></svg><input type="text" placeholder="开始日期"></span><span class="zhi">至</span><span class="in-wrap date"><svg class="date-ico" viewBox="0 0 14 14" fill="none" stroke-width="1.2" stroke-linecap="round"><rect x="2" y="3" width="10" height="9" rx="1"/><path d="M2 6h10M5 1.8V4M9 1.8V4"/></svg><input type="text" placeholder="结束日期"></span></div>
+      <button type="button" class="btn btn-primary">查询</button>
+      <button type="button" class="btn btn-default">重置</button>
+    </section>
+
+    <!-- regionGroup: action-bar -->
+    <section class="action-bar">
+      <span class="action-label">常用功能：</span>
+      <button type="button" class="btn btn-primary">删除</button>
+      <button type="button" class="btn btn-primary">导出列表数据</button>
+      <button type="button" class="btn btn-primary" id="awardNotifyBtn">发送获奖通知</button>
+    </section>
+
+    <!-- regionGroup: data-table -->
+    <section class="table-wrap">
+      <table class="data-table">
+        <colgroup>
+          <col style="width:44px"><col style="width:160px"><col style="width:80px"><col style="width:150px"><col style="width:190px"><col style="width:80px"><col style="width:95px"><col style="width:180px"><col style="width:105px"><col style="width:75px"><col style="width:80px"><col style="width:85px"><col style="width:90px"><col style="width:185px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="cell-center"><input type="checkbox"></th>
+            <th>报名用户信息</th>
+            <th>联系方式</th>
+            <th>赛事活动</th>
+            <th>报名时间</th>
+            <th>参赛方式</th>
+            <th>参赛人</th>
+            <th>参赛项目工程</th>
+            <th>工程状态</th>
+            <th>项目属性</th>
+            <th>备注</th>
+            <th>查看设计报告</th>
+            <th class="cell-center">排序</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-center"><input type="checkbox"></td>
+            <td><span class="user-id">5974008A</span></td>
+            <td><span class="link">查看</span></td>
+            <td>星火计划2026</td>
+            <td>2026-09-15 14:05:53</td>
+            <td><span class="tag tag-blue">个人</span></td>
+            <td><span class="link">eda_trq</span></td>
+            <td><span class="link">[星火计划2026] 0</span></td>
+            <td><span class="tag tag-green">已发布</span></td>
+            <td>公开</td>
+            <td><span class="dash">—</span></td>
+            <td><span class="dash">—</span></td>
+            <td class="cell-center"><span class="sort-cell"><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.2L4 2.7l2.5 2.5"/></svg><span>1</span><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 2.8L4 5.3l2.5-2.5"/></svg></span></td>
+            <td><span class="op-link">联系报名人</span><span class="op-link">修改备注</span></td>
+          </tr>
+          <tr>
+            <td class="cell-center"><input type="checkbox"></td>
+            <td><span class="user-name">涂mega测试</span><span class="user-id">5974008A</span></td>
+            <td><span class="link">查看</span></td>
+            <td>0610缓存2.0</td>
+            <td>2026-09-15 14:02:21</td>
+            <td><span class="tag tag-blue">个人</span></td>
+            <td><span class="link">eda_trq</span></td>
+            <td>0915测试</td>
+            <td><span class="tag tag-orange">未发布</span></td>
+            <td>公开</td>
+            <td><span class="dash">—</span></td>
+            <td><span class="dash">—</span></td>
+            <td class="cell-center"><span class="sort-cell"><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.2L4 2.7l2.5 2.5"/></svg><span>1</span><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 2.8L4 5.3l2.5-2.5"/></svg></span></td>
+            <td><span class="op-link">联系报名人</span><span class="op-link">修改备注</span></td>
+          </tr>
+          <tr>
+            <td class="cell-center"><input type="checkbox"></td>
+            <td><span class="user-name">张大号</span></td>
+            <td><span class="link">查看</span></td>
+            <td>星火计划2026</td>
+            <td>2026-09-01 14:35:95</td>
+            <td><span class="tag tag-blue">个人</span></td>
+            <td></td>
+            <td></td>
+            <td><span class="txt-plain">未创建工程</span></td>
+            <td>公开</td>
+            <td><span class="dash">—</span></td>
+            <td><span class="dash">—</span></td>
+            <td class="cell-center"><span class="sort-cell"><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.2L4 2.7l2.5 2.5"/></svg><span>1</span><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 2.8L4 5.3l2.5-2.5"/></svg></span></td>
+            <td><span class="op-link">联系报名人</span><span class="op-link">修改备注</span></td>
+          </tr>
+          <tr>
+            <td class="cell-center"><input type="checkbox"></td>
+            <td><span class="user-name">张大号</span></td>
+            <td><span class="link">查看</span></td>
+            <td>星火计划2026</td>
+            <td>2026-09-01 14:35:35</td>
+            <td><span class="tag tag-blue">个人</span></td>
+            <td></td>
+            <td></td>
+            <td><span class="txt-plain">未创建工程</span></td>
+            <td>公开</td>
+            <td><span class="dash">—</span></td>
+            <td><span class="dash">—</span></td>
+            <td class="cell-center"><span class="sort-cell"><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.2L4 2.7l2.5 2.5"/></svg><span>1</span><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 2.8L4 5.3l2.5-2.5"/></svg></span></td>
+            <td><span class="op-link">联系报名人</span><span class="op-link">修改备注</span></td>
+          </tr>
+          <tr>
+            <td class="cell-center"><input type="checkbox"></td>
+            <td><span class="user-name">testaaaa</span><span class="user-id">00012A</span></td>
+            <td><span class="link">查看</span></td>
+            <td>0610缓存2.0</td>
+            <td>2026-09-01 13:51:25</td>
+            <td><span class="tag tag-blue">团队</span></td>
+            <td><span class="link">eda_mq</span></td>
+            <td>testtestest</td>
+            <td><span class="tag tag-orange">未发布</span></td>
+            <td>公开</td>
+            <td><span class="dash">—</span></td>
+            <td><span class="dash">—</span></td>
+            <td class="cell-center"><span class="sort-cell"><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.2L4 2.7l2.5 2.5"/></svg><span>1</span><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 2.8L4 5.3l2.5-2.5"/></svg></span></td>
+            <td><span class="op-link">联系报名人</span><span class="op-link">修改备注</span></td>
+          </tr>
+          <tr>
+            <td class="cell-center"><input type="checkbox"></td>
+            <td><span class="user-name">lc</span><span class="user-id">479676A</span></td>
+            <td><span class="link">查看</span></td>
+            <td>助力2025全国电赛</td>
+            <td>2026-08-17 16:26:21</td>
+            <td><span class="tag tag-blue">团队</span></td>
+            <td><span class="link">eda_zuh</span></td>
+            <td><span class="link">[2025电赛活动] a</span></td>
+            <td><span class="tag tag-orange">未发布</span></td>
+            <td>公开</td>
+            <td><span class="dash">—</span></td>
+            <td><span class="dash">—</span></td>
+            <td class="cell-center"><span class="sort-cell"><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.2L4 2.7l2.5 2.5"/></svg><span>1</span><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 2.8L4 5.3l2.5-2.5"/></svg></span></td>
+            <td><span class="op-link">联系报名人</span><span class="op-link">补充资料</span><span class="op-link">修改备注</span></td>
+          </tr>
+          <tr>
+            <td class="cell-center"><input type="checkbox"></td>
+            <td><span class="user-id">5960319A</span></td>
+            <td><span class="link">查看</span></td>
+            <td>星火计划2026</td>
+            <td>2026-08-13 15:05:57</td>
+            <td><span class="tag tag-blue">个人</span></td>
+            <td><span class="link">zhangsic</span></td>
+            <td><span class="link">[星火计划2026] 张</span></td>
+            <td><span class="tag tag-orange">未发布</span></td>
+            <td>公开</td>
+            <td><span class="dash">—</span></td>
+            <td><span class="dash">—</span></td>
+            <td class="cell-center"><span class="sort-cell"><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.2L4 2.7l2.5 2.5"/></svg><span>1</span><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 2.8L4 5.3l2.5-2.5"/></svg></span></td>
+            <td><span class="op-link">联系报名人</span><span class="op-link">修改备注</span></td>
+          </tr>
+          <tr>
+            <td class="cell-center"><input type="checkbox"></td>
+            <td><span class="user-id">5960319A</span></td>
+            <td><span class="link">查看</span></td>
+            <td>星火计划2026</td>
+            <td>2026-08-13 14:46:12</td>
+            <td><span class="tag tag-blue">个人</span></td>
+            <td><span class="link">zhangsic</span></td>
+            <td><span class="link">[星火计划2026] 蓝</span></td>
+            <td><span class="tag tag-orange">未发布</span></td>
+            <td>公开</td>
+            <td><span class="dash">—</span></td>
+            <td><span class="dash">—</span></td>
+            <td class="cell-center"><span class="sort-cell"><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.2L4 2.7l2.5 2.5"/></svg><span>1</span><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 2.8L4 5.3l2.5-2.5"/></svg></span></td>
+            <td><span class="op-link">联系报名人</span><span class="op-link">修改备注</span></td>
+          </tr>
+          <tr>
+            <td class="cell-center"><input type="checkbox"></td>
+            <td><span class="user-name">深圳文工程测试</span><span class="user-id">5960608A</span></td>
+            <td><span class="link">查看</span></td>
+            <td>0610缓存2.0</td>
+            <td>2026-08-13 10:11:41</td>
+            <td><span class="tag tag-blue">个人</span></td>
+            <td><span class="link">zxr001</span></td>
+            <td>测试工程2432</td>
+            <td><span class="tag tag-orange">未发布</span></td>
+            <td>公开</td>
+            <td><span class="dash">—</span></td>
+            <td><span class="dash">—</span></td>
+            <td class="cell-center"><span class="sort-cell"><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.2L4 2.7l2.5 2.5"/></svg><span>1</span><svg viewBox="0 0 8 8" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 2.8L4 5.3l2.5-2.5"/></svg></span></td>
+            <td><span class="op-link">联系报名人</span><span class="op-link">修改备注</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- regionGroup: pagination -->
+    <section class="pagination">
+      <span class="pg-total">共 559 条</span>
+      <span class="pg-size"><select><option>50条/页</option></select><svg class="sel-arrow" viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg></span>
+      <button type="button" class="pg-btn"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 2.5L4 6l3.5 3.5"/></svg></button>
+      <button type="button" class="pg-btn active">1</button>
+      <button type="button" class="pg-btn">2</button>
+      <button type="button" class="pg-btn">3</button>
+      <button type="button" class="pg-btn">4</button>
+      <button type="button" class="pg-btn">5</button>
+      <button type="button" class="pg-btn">6</button>
+      <span class="pg-dots">•••</span>
+      <button type="button" class="pg-btn">12</button>
+      <button type="button" class="pg-btn"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 2.5L8 6l-3.5 3.5"/></svg></button>
+      <span class="pg-jump">前往<input type="text" value="1">页</span>
+    </section>
+  </main>
+</div>
+
+<!-- modal: 发送获奖通知 -->
+<div class="modal-mask" id="awardModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="awardModalTitle">
+    <div class="modal-head">
+      <span class="modal-title" id="awardModalTitle">【获奖通知】</span>
+      <svg class="modal-close" id="awardModalClose" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 3l8 8M11 3l-8 8"/></svg>
+    </div>
+    <div class="modal-body">
+      <div class="modal-row">
+        <span class="modal-label">通知类型：</span>
+        <span class="type-item"><input type="checkbox" id="typeLetter"><span>获奖贺信</span></span>
+        <span class="type-item"><input type="checkbox" id="typeList"><span>获奖名单通知</span></span>
+      </div>
+      <div class="modal-row">
+        <span class="modal-label">获奖贺信：</span>
+        <div class="editor-block">
+          <textarea class="notify-editor" id="editorLetter" placeholder="通知编辑区" disabled></textarea>
+        </div>
+      </div>
+      <div class="modal-row">
+        <span class="modal-label">获奖名单：</span>
+        <div class="editor-block">
+          <div class="award-bar">
+            <input type="text" class="award-input" id="awardInput" placeholder="输入奖项名称，如：一等奖 / 最佳创意奖" disabled autocomplete="off">
+            <button type="button" class="btn btn-default award-add-btn" id="awardAddBtn" disabled>添加奖项</button>
+          </div>
+          <div class="award-tags" id="awardTags"></div>
+          <div class="user-picker">
+            <input type="text" class="user-search" id="userSearch" placeholder="搜索姓名/ID添加获奖用户" disabled autocomplete="off">
+            <div class="user-dropdown" id="userDropdown" hidden></div>
+          </div>
+          <div class="user-chips" id="userChips"></div>
+          <span class="notify-hint">勾选「获奖贺信」后可按奖项添加获奖用户：获奖贺信按奖项分别发送给对应获奖用户；获奖名单通知发给下方勾选的报名用户和这里选择的获奖用户，获奖用户因此会同时收到两条通知</span>
+        </div>
+      </div>
+      <div class="modal-row">
+        <span class="modal-label">获奖名单通知：</span>
+        <div class="editor-block">
+          <textarea class="notify-editor" id="editorList" placeholder="通知编辑区" disabled></textarea>
+          <input type="text" class="notify-url" id="urlList" placeholder="输入获奖名单文章地址" disabled>
+          <span class="notify-hint">发送给表格中已勾选的报名用户（获奖与未获奖均可勾选）和上方按奖项选择的获奖用户；获奖用户会同时收到获奖贺信与获奖名单通知</span>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-primary" id="awardModalOk">发送</button>
+        <button type="button" class="btn btn-default" id="awardModalCancel">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--jlc-font-sans);font-size:14px;color:var(--jlc-foreground);background:#fff;min-width:1440px}
+button,input,select{font-family:inherit}
+button{cursor:pointer}
+svg{flex:0 0 auto}
+.link{color:var(--jlc-link);cursor:pointer}
+
+/* ===== header ===== */
+.topbar{height:48px;background:var(--jlc-header-bg);border-bottom:1px solid var(--jlc-border);box-shadow:0 1px 4px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:relative;z-index:20}
+.tb-left{display:flex;align-items:center;gap:10px}
+.logo-text{font-size:17px;font-weight:600;color:var(--jlc-foreground);white-space:nowrap}
+.tb-burger{color:var(--jlc-muted);cursor:pointer}
+.tb-nav{display:flex;align-items:center;gap:16px;font-size:13px;color:var(--jlc-header-text);white-space:nowrap}
+.nav-item{display:inline-flex;align-items:center;gap:5px;cursor:pointer;position:relative;line-height:1.4}
+.nav-item.nav-user{color:var(--jlc-foreground)}
+.nav-badge{position:absolute;top:-9px;right:-20px;background:#ff4d4f;color:#fff;font-size:10px;line-height:1;padding:2px 4px;border-radius:9px;font-weight:400}
+
+/* ===== layout ===== */
+.layout{display:flex;align-items:stretch;min-height:calc(100vh - 48px)}
+.sidebar{width:200px;flex:0 0 200px;background:var(--jlc-sidebar-bg);border-right:1px solid var(--jlc-border)}
+.main{flex:1;min-width:0;background:var(--jlc-card);display:flex;flex-direction:column}
+
+/* ===== sidebar ===== */
+.side-search{position:relative;margin:10px}
+.side-search input{width:100%;height:30px;border:1px solid var(--jlc-border);border-radius:4px;background:var(--jlc-input-bg);padding:0 8px 0 28px;font-size:12px;color:var(--jlc-foreground);outline:none}
+.side-search input::placeholder{color:var(--jlc-text-tertiary)}
+.side-search .search-ico{position:absolute;left:9px;top:8px;width:13px;height:13px;stroke:var(--jlc-text-tertiary);pointer-events:none}
+.menu{border-top:1px solid var(--jlc-border)}
+.menu-item{height:36px;display:flex;align-items:center;font-size:14px;line-height:1.5;color:var(--jlc-sidebar-text);border-bottom:1px solid var(--jlc-border);border-left:3px solid transparent;cursor:pointer;padding-right:12px;white-space:nowrap;overflow:hidden}
+.menu-item .chev{width:12px;height:12px;margin-right:6px}
+.lv0{padding-left:13px}
+.lv1{padding-left:33px}
+.lv2{padding-left:53px}
+.menu-item.parent-open{color:var(--jlc-primary)}
+.menu-item.active{background:var(--jlc-sidebar-active-bg);color:var(--jlc-primary);border-left-color:var(--jlc-sidebar-active-border)}
+
+/* ===== tab bar ===== */
+.tabbar{height:38px;display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--jlc-border)}
+.tabbar .tb-caret{width:12px;height:12px;stroke:var(--jlc-muted);cursor:pointer}
+.tab{display:inline-flex;align-items:center;gap:10px;height:26px;padding:0 12px;background:var(--jlc-tag-blue-bg);color:var(--jlc-primary);font-size:13px;line-height:1.4;border-radius:2px;cursor:pointer;white-space:nowrap}
+.tab .tab-x{color:var(--jlc-muted);font-size:13px;line-height:1;cursor:pointer}
+
+/* ===== filter panel ===== */
+.filter-panel{padding:16px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.ff{display:flex;align-items:center;gap:6px}
+.ff>label{font-size:14px;line-height:1.5;color:var(--jlc-foreground);white-space:nowrap}
+.in-wrap{position:relative;display:inline-flex;align-items:center}
+.in-wrap input{height:32px;width:140px;border:1px solid var(--jlc-border);border-radius:4px;padding:0 8px;font-size:13px;color:var(--jlc-foreground);outline:none;background:var(--jlc-input-bg)}
+.in-wrap input::placeholder{color:var(--jlc-text-tertiary)}
+.in-wrap .in-prefix{position:absolute;left:8px;width:13px;height:13px;stroke:var(--jlc-text-tertiary);pointer-events:none}
+.in-wrap.has-prefix input{padding-left:27px}
+.in-wrap.date input{width:118px;padding-left:26px}
+.in-wrap.date .date-ico{position:absolute;left:8px;width:13px;height:13px;stroke:var(--jlc-text-tertiary);pointer-events:none}
+.sel-wrap{position:relative;display:inline-flex;align-items:center}
+.sel-wrap select{height:32px;width:118px;appearance:none;-webkit-appearance:none;-moz-appearance:none;border:1px solid var(--jlc-border);border-radius:4px;background:var(--jlc-input-bg);padding:0 24px 0 8px;font-size:13px;color:var(--jlc-foreground);outline:none;cursor:pointer}
+.sel-wrap .sel-arrow{position:absolute;right:7px;width:11px;height:11px;stroke:var(--jlc-text-tertiary);pointer-events:none}
+.zhi{font-size:13px;color:var(--jlc-foreground);margin:0 2px}
+.btn{height:32px;padding:0 16px;border-radius:var(--jlc-radius-sm);font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+.btn-primary{background:var(--jlc-primary);border:1px solid var(--jlc-primary);color:#fff}
+.btn-default{background:var(--jlc-btn-default-bg);border:1px solid var(--jlc-border);color:var(--jlc-foreground)}
+
+/* ===== action bar ===== */
+.action-bar{display:flex;align-items:center;gap:8px;padding:2px 16px 14px}
+.action-label{font-size:14px;line-height:1.5;color:var(--jlc-foreground);margin-right:4px}
+.action-bar .btn{height:28px;padding:0 12px;font-size:13px}
+
+/* ===== data table ===== */
+.table-wrap{overflow-x:auto;padding:0 16px}
+.data-table{width:100%;min-width:1600px;border-collapse:collapse;table-layout:fixed}
+.data-table th,.data-table td{border:1px solid var(--jlc-border);padding:8px 12px;font-size:14px;line-height:1.5;text-align:left;word-break:break-all;vertical-align:middle}
+.data-table th{background:var(--jlc-table-header-bg);font-weight:500;color:var(--jlc-foreground);height:40px}
+.data-table td{height:40px;color:var(--jlc-foreground)}
+.data-table tbody tr:nth-child(odd){background:var(--jlc-table-row-odd)}
+.data-table tbody tr:nth-child(even){background:var(--jlc-table-row-even)}
+.cell-center{text-align:center!important}
+.data-table input[type=checkbox]{width:14px;height:14px;accent-color:var(--jlc-primary);cursor:pointer;vertical-align:middle}
+.user-name{display:block;color:var(--jlc-foreground)}
+.user-id{display:block;color:var(--jlc-link);cursor:pointer}
+.tag{display:inline-block;font-size:12px;line-height:18px;padding:0 8px;border-radius:2px;white-space:nowrap}
+.tag-blue{background:var(--jlc-tag-blue-bg);color:var(--jlc-tag-blue-text)}
+.tag-green{background:var(--jlc-tag-green-bg);color:var(--jlc-tag-green-text)}
+.tag-orange{background:var(--jlc-tag-orange-bg);color:var(--jlc-tag-orange-text)}
+.txt-plain{color:var(--jlc-muted)}
+.dash{color:var(--jlc-text-tertiary)}
+.sort-cell{display:inline-flex;align-items:center;gap:6px;color:var(--jlc-foreground)}
+.sort-cell svg{width:9px;height:9px;stroke:var(--jlc-text-tertiary)}
+.op-link{color:var(--jlc-link);cursor:pointer;white-space:nowrap;margin-right:10px}
+.op-link:last-child{margin-right:0}
+
+/* ===== pagination ===== */
+.pagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;padding:18px 16px 22px;font-size:12px;line-height:1.4;color:var(--jlc-muted)}
+.pg-size{position:relative;display:inline-flex;align-items:center;margin-right:4px}
+.pg-size select{height:28px;appearance:none;-webkit-appearance:none;-moz-appearance:none;border:1px solid var(--jlc-border);border-radius:4px;background:#fff;color:var(--jlc-muted);font-size:12px;padding:0 22px 0 8px;cursor:pointer;outline:none}
+.pg-size .sel-arrow{position:absolute;right:6px;width:10px;height:10px;stroke:var(--jlc-text-tertiary);pointer-events:none}
+.pg-btn{min-width:28px;height:28px;padding:0 4px;border:1px solid var(--jlc-border);border-radius:4px;background:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--jlc-muted)}
+.pg-btn svg{width:11px;height:11px;stroke:currentColor}
+.pg-btn.active{background:var(--jlc-pagination-active-bg);border-color:var(--jlc-pagination-active-bg);color:var(--jlc-pagination-active-text)}
+.pg-dots{color:var(--jlc-text-tertiary);letter-spacing:2px;cursor:default}
+.pg-jump{display:inline-flex;align-items:center;gap:6px;margin-left:4px}
+.pg-jump input{width:38px;height:28px;border:1px solid var(--jlc-border);border-radius:4px;text-align:center;font-size:12px;color:var(--jlc-foreground);outline:none}
+
+/* ===== award notify modal ===== */
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:100}
+.modal-mask[hidden]{display:none}
+.modal{width:560px;max-width:92vw;background:#fff;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,0.18);padding:20px 24px 24px}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.modal-title{font-size:16px;font-weight:600;color:var(--jlc-foreground)}
+.modal-close{width:14px;height:14px;stroke:var(--jlc-text-tertiary);cursor:pointer}
+.modal-close:hover{stroke:var(--jlc-foreground)}
+.modal-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:16px}
+.modal-label{flex:0 0 96px;font-size:14px;line-height:32px;color:var(--jlc-foreground);text-align:right;white-space:nowrap}
+.type-item{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--jlc-foreground);margin-right:24px;line-height:32px}
+.type-item input{width:14px;height:14px;accent-color:var(--jlc-primary);cursor:pointer}
+.editor-block{flex:1;min-width:0}
+.notify-editor{display:block;width:100%;height:120px;border:1px solid var(--jlc-input-border);border-radius:4px;padding:8px 10px;font-size:13px;line-height:1.6;color:var(--jlc-foreground);resize:vertical;outline:none;font-family:inherit;background:var(--jlc-input-bg)}
+.notify-editor::placeholder{color:var(--jlc-text-tertiary)}
+.notify-editor:focus{border-color:var(--jlc-primary)}
+.notify-editor:disabled{background:#f5f5f5;cursor:not-allowed;color:var(--jlc-text-tertiary)}
+.notify-url{display:block;width:100%;height:32px;margin-top:10px;border:1px solid var(--jlc-input-border);border-radius:4px;padding:0 10px;font-size:13px;color:var(--jlc-foreground);outline:none;font-family:inherit}
+.notify-url::placeholder{color:var(--jlc-text-tertiary)}
+.notify-url:focus{border-color:var(--jlc-primary)}
+.notify-url:disabled{background:#f5f5f5;cursor:not-allowed;color:var(--jlc-text-tertiary)}
+.notify-hint{display:block;margin-top:8px;font-size:12px;line-height:1.5;color:var(--jlc-text-tertiary)}
+.award-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.award-input{flex:1;height:32px;border:1px solid var(--jlc-input-border);border-radius:4px;padding:0 10px;font-size:13px;color:var(--jlc-foreground);outline:none;font-family:inherit;background:var(--jlc-input-bg)}
+.award-input::placeholder{color:var(--jlc-text-tertiary)}
+.award-input:focus{border-color:var(--jlc-primary)}
+.award-input:disabled{background:#f5f5f5;cursor:not-allowed;color:var(--jlc-text-tertiary)}
+.award-add-btn{flex:0 0 auto;height:32px;padding:0 12px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.award-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.award-tag{display:inline-flex;align-items:center;gap:5px;background:var(--jlc-tag-gray-bg);color:var(--jlc-muted);border:1px solid var(--jlc-border);font-size:12px;line-height:20px;padding:0 8px;border-radius:2px;cursor:pointer}
+.award-tag.active{background:var(--jlc-tag-blue-bg);border-color:var(--jlc-primary);color:var(--jlc-tag-blue-text)}
+.user-picker{position:relative}
+.user-search{display:block;width:100%;height:32px;border:1px solid var(--jlc-input-border);border-radius:4px;padding:0 10px;font-size:13px;color:var(--jlc-foreground);outline:none;font-family:inherit;background:var(--jlc-input-bg)}
+.user-search::placeholder{color:var(--jlc-text-tertiary)}
+.user-search:focus{border-color:var(--jlc-primary)}
+.user-search:disabled{background:#f5f5f5;cursor:not-allowed;color:var(--jlc-text-tertiary)}
+.user-dropdown{position:absolute;top:34px;left:0;right:0;background:#fff;border:1px solid var(--jlc-border);border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:10;max-height:180px;overflow:auto}
+.user-option{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;font-size:13px;color:var(--jlc-foreground);cursor:pointer}
+.user-option:hover{background:var(--jlc-tag-blue-bg)}
+.user-option .uid{color:var(--jlc-text-tertiary);font-size:12px}
+.user-option.user-empty{color:var(--jlc-text-tertiary);cursor:default}
+.user-option.user-empty:hover{background:transparent}
+.user-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.user-chip{display:inline-flex;align-items:center;gap:5px;background:var(--jlc-tag-blue-bg);color:var(--jlc-tag-blue-text);font-size:12px;line-height:20px;padding:0 8px;border-radius:2px}
+.chip-x{cursor:pointer;font-size:13px}
+.chip-x:hover{color:#ff4d4f}
+.chips-empty{font-size:12px;color:var(--jlc-text-tertiary)}
+.modal-foot{display:flex;justify-content:flex-end;gap:12px;margin-top:20px}
+  </style>
+  <script>
+    (function () {
+      var openBtn = document.getElementById('awardNotifyBtn');
+      var modal = document.getElementById('awardModal');
+      if (!openBtn || !modal) return;
+      var closeX = document.getElementById('awardModalClose');
+      var btnCancel = document.getElementById('awardModalCancel');
+      var btnOk = document.getElementById('awardModalOk');
+      var cbLetter = document.getElementById('typeLetter');
+      var cbList = document.getElementById('typeList');
+      var edLetter = document.getElementById('editorLetter');
+      var edList = document.getElementById('editorList');
+      var urlList = document.getElementById('urlList');
+      var awardInput = document.getElementById('awardInput');
+      var awardAddBtn = document.getElementById('awardAddBtn');
+      var awardTags = document.getElementById('awardTags');
+      var userSearch = document.getElementById('userSearch');
+      var userDropdown = document.getElementById('userDropdown');
+      var userChips = document.getElementById('userChips');
+
+      var MOCK_USERS = [
+        { name: '涂mega测试', uid: '5974008A' },
+        { name: '张大号', uid: '5960300A' },
+        { name: 'testaaaa', uid: '00012A' },
+        { name: 'lc', uid: '479676A' },
+        { name: '深圳文工程测试', uid: '5960608A' },
+        { name: 'zhangsic', uid: '5960319A' },
+        { name: 'eda_trq', uid: '5974001A' },
+        { name: 'eda_mq', uid: '5974002A' },
+        { name: 'eda_zuh', uid: '5974003A' },
+        { name: 'zxr001', uid: '5960609A' }
+      ];
+      var awardData = {};
+
+      var activeAward = null;
+      function currentAward() { return activeAward; }
+      function winnersOf(award) { return awardData[award] || (awardData[award] = []); }
+      function totalWinners() {
+        return Object.keys(awardData).reduce(function (n, k) { return n + awardData[k].length; }, 0);
+      }
+      function userKey(u) { return u.name + '/' + u.uid; }
+
+      function renderAwardTags() {
+        var names = Object.keys(awardData);
+        if (!names.length) {
+          awardTags.innerHTML = '<span class="chips-empty">尚未添加奖项，请先输入奖项名称后点击「添加奖项」</span>';
+          return;
+        }
+        awardTags.innerHTML = names.map(function (n) {
+          return '<span class="award-tag' + (n === activeAward ? ' active' : '') + '" data-name="' + n + '">' + n + '·' + awardData[n].length + '人<span class="chip-x" data-award="' + n + '">×</span></span>';
+        }).join('');
+      }
+      function renderChips() {
+        if (!activeAward) {
+          userChips.innerHTML = '<span class="chips-empty">请先添加并选中奖项</span>';
+          return;
+        }
+        var list = winnersOf(activeAward);
+        if (!list.length) {
+          userChips.innerHTML = '<span class="chips-empty">尚未添加「' + activeAward + '」的获奖用户</span>';
+          return;
+        }
+        userChips.innerHTML = list.map(function (u, i) {
+          return '<span class="user-chip">' + u.name + '·' + u.uid + '<span class="chip-x" data-idx="' + i + '">×</span></span>';
+        }).join('');
+      }
+
+      function renderDropdown(keyword) {
+        var keys = winnersOf(currentAward()).map(userKey);
+        var kw = (keyword || '').trim().toLowerCase();
+        var matches = MOCK_USERS.filter(function (u) {
+          return keys.indexOf(userKey(u)) === -1 &&
+            (!kw || u.name.toLowerCase().indexOf(kw) !== -1 || u.uid.toLowerCase().indexOf(kw) !== -1);
+        }).slice(0, 8);
+        userDropdown.innerHTML = matches.length
+          ? matches.map(function (u) {
+              return '<div class="user-option" data-uid="' + u.uid + '" data-name="' + u.name + '"><span>' + u.name + '</span><span class="uid">' + u.uid + '</span></div>';
+            }).join('')
+          : '<div class="user-option user-empty">无匹配用户</div>';
+        userDropdown.hidden = false;
+      }
+
+      function syncEditors() {
+        var awardEditable = cbLetter.checked;
+        edLetter.disabled = !cbLetter.checked;
+        edList.disabled = !cbList.checked;
+        urlList.disabled = !cbList.checked;
+        awardInput.disabled = !awardEditable;
+        awardAddBtn.disabled = !awardEditable;
+        userSearch.disabled = !awardEditable;
+        if (!cbLetter.checked) edLetter.value = '';
+        if (!cbList.checked) { edList.value = ''; urlList.value = ''; }
+        if (!awardEditable) {
+          awardData = {};
+          activeAward = null;
+          awardInput.value = '';
+          userSearch.value = '';
+          userDropdown.hidden = true;
+          renderAwardTags();
+          renderChips();
+        }
+      }
+      function openModal() { modal.hidden = false; }
+      function closeModal() { modal.hidden = true; }
+      function resetModal() {
+        cbLetter.checked = false; cbList.checked = false; syncEditors();
+      }
+
+      openBtn.addEventListener('click', function () { resetModal(); openModal(); });
+      closeX.addEventListener('click', closeModal);
+      btnCancel.addEventListener('click', closeModal);
+
+      function addAward() {
+        var name = awardInput.value.trim();
+        if (!name) { alert('请输入奖项名称'); return; }
+        if (awardData[name]) { alert('该奖项已存在'); awardInput.value = ''; return; }
+        awardData[name] = [];
+        awardInput.value = '';
+        activeAward = name;
+        renderAwardTags();
+        renderChips();
+      }
+      awardAddBtn.addEventListener('click', addAward);
+      awardInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); addAward(); }
+      });
+      awardTags.addEventListener('click', function (e) {
+        var x = e.target.closest('.chip-x');
+        if (x) {
+          var del = x.getAttribute('data-award');
+          delete awardData[del];
+          if (activeAward === del) activeAward = Object.keys(awardData)[0] || null;
+          renderAwardTags();
+          renderChips();
+          return;
+        }
+        var tag = e.target.closest('.award-tag');
+        if (tag) {
+          activeAward = tag.getAttribute('data-name');
+          userSearch.value = '';
+          userDropdown.hidden = true;
+          renderAwardTags();
+          renderChips();
+        }
+      });
+      userSearch.addEventListener('input', function () { renderDropdown(userSearch.value); });
+      userSearch.addEventListener('focus', function () { renderDropdown(userSearch.value); });
+      userDropdown.addEventListener('click', function (e) {
+        var opt = e.target.closest('.user-option');
+        if (!opt || opt.classList.contains('user-empty')) return;
+        winnersOf(currentAward()).push({ name: opt.getAttribute('data-name'), uid: opt.getAttribute('data-uid') });
+        userSearch.value = '';
+        userDropdown.hidden = true;
+        renderChips();
+      });
+      userChips.addEventListener('click', function (e) {
+        var x = e.target.closest('.chip-x');
+        if (!x) return;
+        winnersOf(currentAward()).splice(parseInt(x.getAttribute('data-idx'), 10), 1);
+        renderChips();
+      });
+      document.addEventListener('click', function (e) {
+        if (!userDropdown.hidden && !e.target.closest('.user-picker')) userDropdown.hidden = true;
+      });
+
+      function countCheckedRows() {
+        return document.querySelectorAll('.data-table tbody input[type=checkbox]:checked').length;
+      }
+      btnOk.addEventListener('click', function () {
+        var checked = countCheckedRows();
+        var total = totalWinners();
+        var perAward = Object.keys(awardData)
+          .filter(function (k) { return awardData[k].length; })
+          .map(function (k) { return k + ' ' + awardData[k].length + ' 人'; });
+        var lines = [];
+        if (cbLetter.checked) {
+          if (!edLetter.value.trim()) { alert('请填写获奖贺信内容'); return; }
+          if (!total) { alert('请按奖项添加获奖用户'); return; }
+          lines.push('· 获奖贺信 → 按奖项发送：' + perAward.join('、') + '（共 ' + total + ' 人）');
+        }
+        if (cbList.checked) {
+          lines.push('· 获奖名单通知 → 已勾选报名用户 ' + checked + ' 人 + 获奖用户 ' + total + ' 人');
+          if (cbLetter.checked && total) {
+            lines.push('· 其中 ' + total + ' 名获奖用户在两个名单中均被选择，将同时收到两条通知（获奖贺信 + 获奖名单通知）');
+          }
+        }
+        if (!lines.length) { alert('请先选择通知类型'); return; }
+        if (confirm('发送预览：\n' + lines.join('\n') + '\n\n确认发送？')) {
+          closeModal();
+        }
+      });
+      modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+      cbLetter.addEventListener('change', syncEditors);
+      cbList.addEventListener('change', syncEditors);
+      renderAwardTags();
+      renderChips();
+    })();
+  </script>
+  </body>
+</html>

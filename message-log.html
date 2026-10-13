@@ -1,0 +1,1717 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消息通知管理 - 嘉立创集团</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link id="layuicss-laydate" rel="stylesheet" href="https://unpkg.com/layui-laydate@5.3.1/dist/theme/default/laydate.css">
+  <link rel="stylesheet" href="css/message.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="topbar">
+    <div class="tb-left">
+      <button class="tb-burger" id="toggleSidebar" aria-label="切换侧边栏">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 26 26" aria-hidden="true">
+          <rect width="26" height="26" rx="6" fill="#1890ff"></rect>
+          <text x="13" y="17" text-anchor="middle" font-size="9.5" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">JLC</text>
+        </svg>
+        <span class="logo-text">嘉立创集团</span>
+      </div>
+    </div>
+
+    <nav class="tb-nav">
+      <span class="nav-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>员工之家</span>
+      </span>
+      <span class="nav-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        <span>小嘉办公助手</span>
+      </span>
+      <span class="nav-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+        <span>智能助手</span>
+      </span>
+      <span class="nav-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <span>我的工单</span>
+      </span>
+      <span class="nav-item has-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span>我的待办</span>
+        <span class="nav-badge">99+</span>
+      </span>
+      <span class="nav-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <span>消息</span>
+      </span>
+    </nav>
+
+    <div class="tb-right">
+      <div class="nav-user">
+        <div class="avatar">软</div>
+        <div class="user-info">
+          <span class="user-dept">软件部测试组</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <span class="nav-item nav-logout">退出</span>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="side-search">
+        <svg class="search-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" placeholder="搜索菜单">
+      </div>
+
+      <nav class="menu" id="menu">
+        <div class="menu-group">
+          <div class="menu-item lv0 parent-open" data-level="0">
+            <span class="mi-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></span>
+            <span class="mi-text">国内EDA</span>
+            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+          <div class="menu-children">
+            <div class="menu-item lv1 parent-open" data-level="1">
+              <span class="mi-text">大学计划管理</span>
+            </div>
+            <div class="menu-item lv1 parent-open" data-level="1">
+              <span class="mi-text">活动管理</span>
+              <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+            <div class="menu-children sub">
+              <div class="menu-item lv2" data-level="2"><span class="mi-text">活动页配置管理</span></div>
+              <div class="menu-item lv2" data-level="2" data-page="index.html"><span class="mi-text">参赛报名审核</span></div>
+              <div class="menu-item lv2" data-level="2"><span class="mi-text">星火报名审核</span></div>
+              <div class="menu-item lv2" data-level="2"><span class="mi-text">耗材申请审核</span></div>
+              <div class="menu-item lv2" data-level="2"><span class="mi-text">外包需求管理</span></div>
+              <div class="menu-item lv2" data-level="2"><span class="mi-text">悬赏报名审核</span></div>
+              <div class="menu-item lv2" data-level="2"><span class="mi-text">用户想法审核</span></div>
+              <div class="menu-item lv2" data-level="2"><span class="mi-text">邀请记录管理</span></div>
+              <div class="menu-item lv2" data-level="2"><span class="mi-text">领券截图审核</span></div>
+              <div class="menu-item lv2" data-level="2"><span class="mi-text">投诉管理</span></div>
+            </div>
+            <div class="menu-item lv1 parent-open" data-level="1">
+              <span class="mi-text">开源平台管理</span>
+              <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+            <div class="menu-children sub">
+              <div class="menu-item lv2 parent-open" data-level="2">
+                <span class="mi-text">站内信管理</span>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </div>
+              <div class="menu-children sub2 open">
+                <div class="menu-item lv3" data-level="3" data-page="message.html"><span class="mi-text">站内信发送记录</span></div>
+                <div class="menu-item lv3 active" data-level="3" data-page="message-log.html"><span class="mi-text">消息通知管理</span></div>
+              </div>
+            </div>
+            <div class="menu-item lv1" data-level="1">
+              <span class="mi-text">合作专区管理</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-group">
+          <div class="menu-item lv0" data-level="0">
+            <span class="mi-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg></span>
+            <span class="mi-text">文件管理</span>
+            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+
+        <div class="menu-group">
+          <div class="menu-item lv0" data-level="0">
+            <span class="mi-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>
+            <span class="mi-text">评论管理</span>
+            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+
+        <div class="menu-group">
+          <div class="menu-item lv0" data-level="0">
+            <span class="mi-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+            <span class="mi-text">认证管理</span>
+            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+
+        <div class="menu-group">
+          <div class="menu-item lv0" data-level="0">
+            <span class="mi-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
+            <span class="mi-text">积分管理</span>
+            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+
+        <div class="menu-group">
+          <div class="menu-item lv0" data-level="0">
+            <span class="mi-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></span>
+            <span class="mi-text">星火计划管理</span>
+            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+
+        <div class="menu-group">
+          <div class="menu-item lv0" data-level="0">
+            <span class="mi-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></span>
+            <span class="mi-text">优惠券管理</span>
+            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Mobile overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ===== Main ===== -->
+    <main class="main">
+
+      <!-- Breadcrumb / tab bar -->
+      <div class="tabbar">
+        <div class="breadcrumb">
+          <span>国内EDA</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          <span>开源平台管理</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          <span class="bc-current">消息通知管理</span>
+        </div>
+        <div class="uid-quick-search">
+          <label>客编快速查询：</label>
+          <div class="in-wrap">
+            <input type="text" placeholder="输入客编反查批次" id="quickUidInput">
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="quickUidBtn">查询</button>
+        </div>
+        <div class="tab-list">
+          <span class="tab active">消息通知管理<span class="tab-x">×</span></span>
+        </div>
+      </div>
+
+      <!-- ===== Filter Panel ===== -->
+      <section class="filter-panel" id="filterPanel">
+        <div class="filter-grid">
+          <div class="ff">
+            <label>通知内容</label>
+            <div class="in-wrap">
+              <input type="text" placeholder="请输入通知内容" id="filterContent">
+            </div>
+          </div>
+
+          <div class="ff">
+            <label>接收客编</label>
+            <div class="in-wrap">
+              <input type="text" placeholder="请输入客编" id="filterUid">
+            </div>
+          </div>
+
+          <div class="ff">
+            <label>通知类型</label>
+            <div class="in-wrap">
+              <select id="filterType">
+                <option value="">全部</option>
+                <option value="system">系统通知</option>
+                <option value="audit">审核通知</option>
+                <option value="activity">活动通知</option>
+                <option value="coupon">优惠券通知</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="ff">
+            <label>关联活动</label>
+            <div class="in-wrap">
+              <select id="filterActivity">
+                <option value="">全部</option>
+                <option value="none">无</option>
+                <option value="星火计划2026">星火计划2026</option>
+                <option value="电赛活动0301">电赛活动0301</option>
+                <option value="电商活动1201">电商活动1201</option>
+                <option value="周年活动1215">周年活动1215</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="ff">
+            <label>发送人</label>
+            <div class="in-wrap">
+              <input type="text" placeholder="请输入发送人" id="filterSender">
+            </div>
+          </div>
+
+          <div class="ff ff-date">
+            <label>发送时间</label>
+            <div class="date-range">
+              <div class="in-wrap date">
+                <svg class="date-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <input type="text" placeholder="开始日期" id="filterDateStart" readonly="">
+              </div>
+              <span class="zhi">至</span>
+              <div class="in-wrap date has-clear">
+                <input type="text" placeholder="结束日期" id="filterDateEnd" readonly="">
+                <span class="date-clear" id="dateClearBtn" title="清空">×</span>
+              </div>
+            </div>
+            <div class="filter-inline-btns">
+              <button type="button" class="btn btn-primary" id="btnSearch">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                查询
+              </button>
+              <button type="button" class="btn btn-default" id="btnReset">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                重置
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-actions" style="position: relative;">
+          <button type="button" class="btn btn-text toggle-filter" id="toggleFilter" style="position: relative;">
+            <span>收起</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ===== Action Bar ===== -->
+      <section class="action-bar">
+        <div class="action-left">
+          <span class="action-label">常用功能：</span>
+          <button type="button" class="btn btn-primary" id="btnNewMsg">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            新建通知
+          </button>
+          <button type="button" class="btn btn-danger" id="btnBatchRecall" hidden="">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+            批量撤回
+          </button>
+          <button type="button" class="btn btn-primary" id="btnExport">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            导出记录
+          </button>
+        </div>
+        <div class="action-right">
+          <span class="selected-count" id="selectedCount">已选 0 项</span>
+        </div>
+      </section>
+
+      <!-- ===== Data Table ===== -->
+      <section class="table-wrap">
+        
+        <table id="dataTable" class="jlc-table">
+          <colgroup>
+            <col style="width:42px">
+            <col style="width:56px">
+            <col style="width:130px">
+            <col>
+            <col style="width:100px">
+            <col style="width:90px">
+            <col style="width:140px">
+            <col style="width:100px">
+            <col style="width:170px">
+            <col style="width:100px">
+            <col style="width:160px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="cell-center"><input type="checkbox" id="checkAll"></th>
+              <th class="cell-center">序号</th>
+              <th>批次ID</th>
+              <th>通知内容</th>
+              <th>通知类型</th>
+              <th class="cell-center">发送数量</th>
+              <th>关联活动</th>
+              <th>发送人</th>
+              <th>发送时间</th>
+              <th class="cell-center">发送状态</th>
+              <th class="cell-center">操作</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+
+        <!-- Empty state -->
+        <div class="empty-state" id="emptyState" hidden="">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="9" x2="15" y2="9"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+          <p>暂无数据</p>
+        </div>
+      </section>
+
+      <!-- ===== Pagination ===== -->
+      <div class="pagination" id="pagination">
+        <div class="page-left">
+          <span>共 <strong id="totalCount">100</strong> 条记录</span>
+        </div>
+        <div class="page-right">
+          <button class="page-btn" id="prevPage" disabled="">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <div class="page-numbers" id="pageNumbers"><button class="page-num active" data-page="1">1</button><button class="page-num" data-page="2">2</button><button class="page-num" data-page="3">3</button><button class="page-num" data-page="4">4</button><button class="page-num" data-page="5">5</button><button class="page-num" data-page="6">6</button><button class="page-num" data-page="7">7</button></div>
+          <button class="page-btn" id="nextPage">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="page-jump">
+            跳至 <input type="number" min="1" id="jumpInput" value="1"> 页
+            <button class="btn btn-default btn-sm" id="jumpBtn">确定</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  
+
+  <!-- ===== 新建通知 Modal ===== -->
+  <div class="modal-mask" id="newMsgModal" hidden="">
+    <div class="modal modal-lg" role="dialog" aria-modal="true" aria-labelledby="newMsgModalTitle">
+      <div class="modal-head">
+        <span class="modal-title" id="newMsgModalTitle">新建通知</span>
+        <button class="modal-close" id="newMsgModalClose" aria-label="关闭">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- 通知类型（单选） -->
+        <div class="modal-row">
+          <label class="modal-label"><span class="required">*</span>通知类型</label>
+          <div class="type-group" id="nmTypeGroup">
+            <label class="type-item">
+              <input type="radio" name="nmNotifyType" value="system" id="nmTypeSystem">
+              <span>系统通知</span>
+            </label>
+            <label class="type-item">
+              <input type="radio" name="nmNotifyType" value="audit" id="nmTypeAudit">
+              <span>审核通知</span>
+            </label>
+            <label class="type-item">
+              <input type="radio" name="nmNotifyType" value="activity" id="nmTypeActivity">
+              <span>活动通知</span>
+            </label>
+            <label class="type-item">
+              <input type="radio" name="nmNotifyType" value="coupon" id="nmTypeCoupon">
+              <span>优惠券通知</span>
+            </label>
+          </div>
+          <div class="field-error" id="nmErrType" hidden="">请选择通知类型</div>
+        </div>
+
+        <!-- 关联活动 -->
+        <div class="modal-row" style="position: relative;">
+          <label class="modal-label">关联活动</label>
+          <div class="in-wrap">
+            <select id="nmActivity">
+              <option value="none" selected="">无</option>
+              <option value="星火计划2026">星火计划2026</option>
+              <option value="电赛活动0301">电赛活动0301</option>
+              <option value="电商活动1201">电商活动1201</option>
+              <option value="周年活动1215">周年活动1215</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 通知内容（富文本） -->
+        <div class="modal-row">
+          <label class="modal-label"><span class="required">*</span>通知内容</label>
+          <div class="editor-block">
+            <!-- 富文本工具栏（原型模拟） -->
+            <div class="rich-toolbar" id="nmRichToolbar">
+              <button type="button" class="rt-btn" title="加粗"><strong>B</strong></button>
+              <button type="button" class="rt-btn" title="斜体"><em>I</em></button>
+              <button type="button" class="rt-btn" title="插入链接" id="nmInsertLinkBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                链接
+              </button>
+              <span class="rt-hint">富文本编辑器</span>
+            </div>
+            <textarea class="notify-editor" id="nmContentEditor" placeholder="请输入通知内容..." style="min-height:160px;"></textarea>
+            <div class="field-error" id="nmErrContent" hidden="">请输入通知内容</div>
+          </div>
+        </div>
+
+        <!-- 发送对象（客编输入） -->
+        <div class="modal-row">
+          <label class="modal-label"><span class="required">*</span>发送对象</label>
+          <div class="editor-block">
+            <div class="user-picker">
+              <input type="text" class="user-search" id="nmUidInput" placeholder="输入客编后按回车添加，支持多个" autocomplete="off">
+            </div>
+            <div class="field-error" id="nmErrUsers" hidden="">请添加至少一个发送客编</div>
+            <div class="user-chips" id="nmUserChips"></div>
+            <p class="notify-hint">以客编为唯一标识，发送前将自动校验有效性</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <div class="modal-foot-right">
+          <button type="button" class="btn btn-default" id="nmModalCancel">取消</button>
+          <button type="button" class="btn btn-primary" id="nmModalOk">发送</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 插入超链接弹窗 ===== -->
+  <div class="modal-mask" id="nmLinkCardModal" hidden="">
+    <div class="modal modal-sm" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <span class="modal-title">插入超链接</span>
+        <button class="modal-close" id="nmLinkCardClose" aria-label="关闭">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-row">
+          <label class="modal-label"><span class="required">*</span>链接标题</label>
+          <div class="in-wrap">
+            <input type="text" id="nmLinkTitle" placeholder="请输入链接标题">
+          </div>
+        </div>
+        <div class="modal-row">
+          <label class="modal-label"><span class="required">*</span>链接地址</label>
+          <div class="in-wrap">
+            <input type="text" id="nmLinkUrl" placeholder="请输入链接地址，如：https://lceda.cn/activity">
+          </div>
+          <div class="field-error" id="nmErrLinkUrl" hidden="">请输入有效的链接地址</div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <div class="modal-foot-right">
+          <button type="button" class="btn btn-default" id="nmLinkCardCancel">取消</button>
+          <button type="button" class="btn btn-primary" id="nmLinkCardOk">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 无效客编提示弹窗 ===== -->
+  <div class="modal-mask" id="nmInvalidUidModal" hidden="">
+    <div class="modal modal-sm" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <span class="modal-title">客编校验未通过</span>
+      </div>
+      <div class="modal-body">
+        <div class="confirm-tip-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#faad14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        </div>
+        <div class="confirm-tip-text">
+          <p>以下 <strong id="nmInvalidCount">1</strong> 个客编无效，请确认后重新发送</p>
+          <div class="invalid-uid-list" id="nmInvalidUidList"><span class="invalid-uid-item">A</span></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <div class="modal-foot-right">
+          <button type="button" class="btn btn-default" id="nmInvalidUidOk">我知道了</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 撤回确认弹窗 ===== -->
+  <div class="modal-mask" id="nmRecallConfirmModal" hidden="">
+    <div class="modal modal-sm" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <span class="modal-title">撤回通知</span>
+      </div>
+      <div class="modal-body">
+        <div class="confirm-tip-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#faad14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        </div>
+        <div class="confirm-tip-text">
+          <p>确定撤回通知「<strong id="nmRecallTitle"></strong>」吗？</p>
+          <p class="recall-hint">撤回后接收方将无法再查看该通知，且无法恢复</p>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <div class="modal-foot-right">
+          <button type="button" class="btn btn-default" id="nmRecallCancel">取消</button>
+          <button type="button" class="btn btn-danger" id="nmRecallOk">确定撤回</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 批次详情抽屉 ===== -->
+  <div class="detail-drawer-mask" id="detailDrawer" hidden="">
+    <div class="detail-drawer">
+      <div class="detail-drawer-head">
+        <span class="detail-drawer-title">批次详情</span>
+        <button class="modal-close" id="ddClose" aria-label="关闭">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="detail-drawer-body">
+        <!-- 概览区 -->
+        <div class="detail-drawer-overview">
+          <div class="ov-row">
+            <div class="ov-item"><span class="ov-label">通知类型</span><span class="ov-value" id="ddType"></span></div>
+            <div class="ov-item"><span class="ov-label">关联活动</span><span class="ov-value" id="ddActivity"></span></div>
+            <div class="ov-item"><span class="ov-label">发送人</span><span class="ov-value" id="ddSender"></span></div>
+            <div class="ov-item"><span class="ov-label">发送时间</span><span class="ov-value" id="ddTime"></span></div>
+          </div>
+          <div class="ov-stats" id="ddStats"></div>
+          <div class="ov-content">
+            <div class="ov-label">通知内容</div>
+            <div class="ov-content-text" id="ddContent"></div>
+          </div>
+        </div>
+        <!-- 接收用户明细 -->
+        <div class="detail-drawer-recipients">
+          <div class="detail-drawer-tools">
+            <div class="detail-drawer-tools-left">
+              <span style="font-size:14px;font-weight:500;color:var(--jlc-text-primary)">接收明细</span>
+              <div class="in-wrap" style="width:220px">
+                <input type="text" id="ddUidSearch" placeholder="搜索客编/用户名">
+              </div>
+              <div class="in-wrap" style="width:140px">
+                <select id="ddStatusFilter">
+                  <option value="">全部状态</option>
+                  <option value="success">发送成功</option>
+                  <option value="fail">发送失败</option>
+                  <option value="sending">发送中</option>
+                  <option value="recalled">已撤回</option>
+                </select>
+              </div>
+            </div>
+            <div class="detail-drawer-count" id="ddRecCount">共 0 条</div>
+          </div>
+          <div class="detail-drawer-table-wrap">
+            <table class="jlc-table detail-recipient-table" id="ddTable">
+              <colgroup>
+                <col style="width:60px">
+                <col style="width:140px">
+                <col style="width:140px">
+                <col style="width:100px">
+                <col>
+                <col style="width:80px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="cell-center">序号</th>
+                  <th>用户名</th>
+                  <th>客编</th>
+                  <th class="cell-center">状态</th>
+                  <th>失败原因</th>
+                  <th class="cell-center">操作</th>
+                </tr>
+              </thead>
+              <tbody id="ddRecipientBody"></tbody>
+            </table>
+          </div>
+          <div class="detail-drawer-page" id="ddPagination">
+            <span class="pg-total" id="ddPgTotal"></span>
+            <span class="pg-num" id="ddPgNum"></span>
+            <span class="pg-size">
+              <select id="ddPgSize">
+                <option value="10">10条/页</option>
+                <option value="20" selected="">20条/页</option>
+                <option value="50">50条/页</option>
+              </select>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 通知效果展示 Modal（模拟接收方视角） ===== -->
+  <div class="modal-mask" id="nmEffectModal" hidden="" style="z-index: 1001;">
+    <div class="modal modal-md" role="dialog" aria-modal="true" aria-labelledby="nmEffectTitle">
+      <div class="modal-head">
+        <span class="modal-title" id="nmEffectTitle">发送成功 · 通知效果</span>
+        <button class="modal-close" id="nmEffectClose" aria-label="关闭">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="effect-tip">以下为接收方（客编用户）在站内信列表中看到的通知效果：</p>
+        <div class="msg-effect-phone">
+          <div class="msg-effect-appbar">
+            <span class="msg-effect-appname">站内信</span>
+            <span class="msg-effect-badge">未读</span>
+          </div>
+          <div class="msg-effect-list">
+            <div class="msg-effect-card">
+              <div class="msg-effect-head">
+                <span class="tag msg-effect-tag" id="nmEffectTag">系统通知</span>
+                <span class="msg-effect-time" id="nmEffectTime"></span>
+              </div>
+              <div class="msg-effect-content" id="nmEffectContent"></div>
+              <div class="msg-effect-meta" id="nmEffectMeta"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <div class="modal-foot-right">
+          <button type="button" class="btn btn-primary" id="nmEffectOk">知道了</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Send Result Alert -->
+  <div class="send-result-alert" id="nmSendResultAlert" hidden="">
+    <div class="send-result-content" id="nmSendResultText"></div>
+    <button class="send-result-export" id="nmSendResultExportBtn" hidden="">导出失败名单</button>
+  </div>
+
+  <!-- Resend Confirm Alert -->
+  <div class="resend-confirm-alert" id="nmResendConfirmAlert" hidden="">
+    <div class="resend-confirm-inner">
+      <div class="resend-confirm-title" id="nmResendConfirmTitle"></div>
+      <div class="resend-confirm-users" id="nmResendConfirmUsers"></div>
+      <div class="resend-confirm-actions">
+        <button class="resend-confirm-btn resend-confirm-export" id="nmResendConfirmExport" hidden="">导出重复名单</button>
+        <div class="resend-confirm-btns">
+          <button class="resend-confirm-btn resend-confirm-cancel" id="nmResendConfirmCancel">取消</button>
+          <button class="resend-confirm-btn resend-confirm-ok" id="nmResendConfirmOk">确定发送</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast toast-error" id="nmToast" hidden="">请完善必填项</div>
+
+  <script src="https://unpkg.com/layui-laydate@5.3.1/dist/laydate.js"></script>
+
+<script>
+    (function () {
+      'use strict';
+
+      function $(sel) { return document.querySelector(sel); }
+      function $$(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+
+      /* ===== Mock Data ===== */
+      var NOTIFY_TYPES = {
+        system:   { label: '系统通知', cls: 'msg-type-system' },
+        audit:  { label: '审核通知', cls: 'msg-type-audit' },
+        activity:{ label: '活动通知', cls: 'msg-type-activity' },
+        coupon: { label: '优惠券通知', cls: 'msg-type-coupon' }
+      };
+
+      /* 生成 200 个客编的用户池 */
+      function genUserPool(n) {
+        var surnames = ['赵','钱','孙','李','周','吴','郑','王','冯','陈','褚','卫','蒋','沈','韩','杨','朱','秦','尤','许','何','吕','施','张','孔','曹','严','华','金','魏','陶','姜'];
+        var names = ['工','同学','老师','博士','经理','工程师','研究员','教授','设计师','架构师','测试','运维','开发','产品','运营'];
+        var users = [];
+        for (var i = 0; i < n; i++) {
+          var sn = surnames[i % surnames.length];
+          var nm = names[Math.floor(i / surnames.length) % names.length];
+          var suffix = Math.floor(i / (surnames.length * names.length));
+          var uidNum = 5970000 + i;
+          users.push({
+            uid: uidNum + 'A',
+            userName: sn + nm + (suffix > 0 ? suffix : '')
+          });
+        }
+        return users;
+      }
+      var USER_POOL = genUserPool(200);
+
+      var MOCK_USERS = USER_POOL.map(function (u, i) {
+        return {
+          name: u.userName,
+          username: 'user' + (i + 1),
+          uid: u.uid
+        };
+      });
+
+      /* 生成 100 条批次发送记录 */
+      function genMockData(count) {
+        var types = ['system', 'audit', 'activity', 'coupon'];
+        var typeSenders = { system: '系统管理员', audit: '张审核', activity: '李活动', coupon: '券券券' };
+        var activities = ['星火计划2026', '0610缓存2.0', '助力2025全国电赛', 'EDA创新大赛', '开源峰会2026', '暑期训练营', ''];
+        var contents = {
+          system: [
+            '尊敬的用户，平台将于本周六凌晨 02:00-06:00 进行系统升级维护，期间部分服务可能短暂不可用，敬请谅解。',
+            '我们检测到您的账号在非常用地点登录，如非本人操作，请尽快修改密码。',
+            '系统安全策略已更新，请您在下次登录时完成身份验证。',
+            '平台将于本月底进行年度数据归档，届时部分历史查询功能可能延迟响应。',
+            '您的账户密码将于 7 天后过期，请及时更新以避免影响使用。'
+          ],
+          audit: [
+            '恭喜您，您的报名资料已经审核通过，请按时参加活动。',
+            '您提交的项目审核未通过，原因是资料不完整，请补充后重新提交。',
+            '您的审核申请正在处理中，预计 3 个工作日内给出结果。',
+            '审核已完成，您获得优秀项目评级，请查看详细评价。',
+            '复审通知：您的项目已进入第二轮评审，请保持电话畅通。'
+          ],
+          activity: [
+            '您关注的活动即将开始，请提前做好准备，准时参与。',
+            '活动报名即将截止，请尚未完成报名的用户尽快提交资料。',
+            '新增活动场次：应广大用户要求，本活动加开一场，速来报名。',
+            '活动日程已更新，请在个人中心查看最新安排。',
+            '活动圆满结束，感谢您的参与，证书和奖品将在 7 个工作日内发放。'
+          ],
+          coupon: [
+            '恭喜您获得200元优惠券，已发放至您的账户，请在有效期内使用。',
+            '限时5折优惠券正在发放中，数量有限，先到先得，请及时领取。',
+            '您有一张优惠券即将过期，请尽快使用，避免浪费。',
+            '新用户专享：注册即送 100 元无门槛券，立即领取。',
+            '会员日福利：全场券包低至 3 折，限时抢购。'
+          ]
+        };
+        var recipientStatuses = ['success', 'success', 'success', 'success', 'success', 'success', 'success', 'fail', 'sending'];
+        var failReasons = ['网络连接超时', '账号已注销', '用户拒收', '邮箱不存在', '服务暂不可用'];
+
+        var list = [];
+        var baseTime = new Date('2026-10-08 23:59:59').getTime();
+
+        function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+        function formatDate(d) {
+          return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate())
+            + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+        }
+
+        function batchDateCode(d) {
+          return '' + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate());
+        }
+
+        for (var i = 0; i < count; i++) {
+          var type = types[i % types.length];
+          var contentList = contents[type];
+          var content = contentList[i % contentList.length];
+          var activity = activities[i % activities.length];
+          var sender = typeSenders[type];
+          var sendTime = new Date(baseTime - i * 3600 * 1000 * 1.5);
+          var countNum = 10 + (i % 90);
+
+          var recipients = [];
+          for (var j = 0; j < countNum; j++) {
+            var user = USER_POOL[(i * 3 + j) % USER_POOL.length];
+            var rStatus = recipientStatuses[j % recipientStatuses.length];
+            var r = {
+              name: user.userName,
+              username: 'user' + ((i * 3 + j) % USER_POOL.length + 1),
+              uid: user.uid,
+              status: rStatus
+            };
+            if (rStatus === 'fail') {
+              r.failReason = failReasons[j % failReasons.length];
+            }
+            recipients.push(r);
+          }
+
+          // 批次整体状态：优先按实际结果汇总
+          var batchStatus = 'success';
+          if (recipients.some(function (r) { return r.status === 'sending'; })) batchStatus = 'sending';
+          else if (recipients.every(function (r) { return r.status === 'recalled'; })) batchStatus = 'recalled';
+          else if (recipients.some(function (r) { return r.status === 'fail'; })) batchStatus = 'fail';
+
+          list.push({
+            id: 1001 + i,
+            batchId: 'B' + batchDateCode(sendTime) + String(1001 + i).slice(-3),
+            type: type,
+            activity: activity,
+            content: content,
+            sender: sender,
+            sendTime: formatDate(sendTime),
+            status: batchStatus,
+            count: countNum,
+            recipients: recipients
+          });
+        }
+        return list;
+      }
+
+      var MOCK_DATA = genMockData(100);
+
+      /* ===== State ===== */
+      var state = {
+        data: MOCK_DATA.slice(),
+        filtered: MOCK_DATA.slice(),
+        page: 1,
+        pageSize: 10,
+        selectedIds: [],
+        uidList: [],
+        currentDetailId: null
+      };
+
+      var detailState = {
+        recipients: [],
+        filteredRecipients: [],
+        page: 1,
+        pageSize: 20,
+        currentBatchId: null
+      };
+
+      /* ===== Helpers ===== */
+      function escapeHtml(s) {
+        if (s === null || s === undefined) return '';
+        return String(s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      function typeLabel(type) {
+        return NOTIFY_TYPES[type] ? NOTIFY_TYPES[type].label : type;
+      }
+      function typeClass(type) {
+        return NOTIFY_TYPES[type] ? NOTIFY_TYPES[type].cls : 'tag-gray';
+      }
+
+      function statusInfo(status) {
+        switch (status) {
+          case 'success': return { label: '发送成功', cls: 'status-sent' };
+          case 'fail':    return { label: '发送失败', cls: 'status-fail' };
+          case 'sending': return { label: '发送中', cls: 'status-sending' };
+          case 'recalled':return { label: '已撤回', cls: 'status-recalled' };
+          default:        return { label: status, cls: '' };
+        }
+      }
+
+      function renderContent(text) {
+        if (!text) return '';
+        var s = escapeHtml(text);
+        s = s.replace(/\[([^\]]*)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+        return s.replace(/\n/g, '<br>');
+      }
+
+      /* ===== Render Table ===== */
+      function renderTable() {
+        var list = state.filtered;
+        var total = list.length;
+        var totalPages = Math.max(1, Math.ceil(total / state.pageSize));
+        if (state.page > totalPages) state.page = totalPages;
+        var start = (state.page - 1) * state.pageSize;
+        var pageList = list.slice(start, start + state.pageSize);
+
+        var tbody = $('#tableBody');
+        if (!pageList.length) {
+          tbody.innerHTML = '';
+          $('#emptyState').hidden = false;
+        } else {
+          $('#emptyState').hidden = true;
+          tbody.innerHTML = pageList.map(function (row, idx) {
+            var st = statusInfo(row.status);
+            var contentText = row.content.replace(/\n/g, ' ');
+            if (contentText.length > 36) contentText = contentText.slice(0, 36) + '…';
+            var checked = state.selectedIds.indexOf(row.id) >= 0 ? 'checked' : '';
+            var canRecall = row.status === 'success';
+            return '<tr data-id="' + row.id + '">' +
+              '<td class="cell-center"><input type="checkbox" class="row-check" data-id="' + row.id + '" ' + checked + '></td>' +
+              '<td class="cell-center" style="color:var(--jlc-text-tertiary)">' + (start + idx + 1) + '</td>' +
+              '<td class="ellipsis" title="' + escapeHtml(row.batchId) + '">' + escapeHtml(row.batchId) + '</td>' +
+              '<td class="ellipsis msg-content-link" data-id="' + row.id + '" title="' + escapeHtml(row.content.replace(/\n/g, ' ')) + '">' + escapeHtml(contentText) + '</td>' +
+              '<td><span class="tag ' + typeClass(row.type) + '">' + typeLabel(row.type) + '</span></td>' +
+              '<td class="cell-center">' + row.count + '</td>' +
+              '<td class="ellipsis" title="' + escapeHtml(row.activity || '无') + '">' + escapeHtml(row.activity || '无') + '</td>' +
+              '<td class="ellipsis" title="' + escapeHtml(row.sender) + '">' + escapeHtml(row.sender) + '</td>' +
+              '<td>' + escapeHtml(row.sendTime) + '</td>' +
+              '<td class="cell-center"><span class="' + st.cls + '">' + st.label + '</span></td>' +
+              '<td class="cell-center">' +
+                '<span class="link-btn" data-id="' + row.id + '" data-action="detail">详情</span>' +
+                (canRecall ? '<span class="link-btn link-danger" data-id="' + row.id + '" data-action="recall">撤回</span>' : '') +
+              '</td>' +
+            '</tr>';
+          }).join('');
+        }
+
+        $('#totalCount').textContent = total;
+        renderPagination(totalPages);
+      }
+
+      function renderPagination(totalPages) {
+        var container = $('#pageNumbers');
+        var html = '';
+        var maxShow = 7;
+        var cur = state.page;
+        var start = Math.max(1, cur - Math.floor(maxShow / 2));
+        var end = Math.min(totalPages, start + maxShow - 1);
+        start = Math.max(1, end - maxShow + 1);
+
+        for (var i = start; i <= end; i++) {
+          html += '<button class="page-num' + (i === cur ? ' active' : '') + '" data-page="' + i + '">' + i + '</button>';
+        }
+        container.innerHTML = html;
+
+        $('#prevPage').disabled = cur <= 1;
+        $('#nextPage').disabled = cur >= totalPages;
+      }
+
+      /* ===== Selection ===== */
+      function updateCheckAllState() {
+        var checks = $$('.row-check');
+        if (!checks.length) { $('#checkAll').checked = false; return; }
+        var allChecked = checks.every(function (c) { return c.checked; });
+        $('#checkAll').checked = allChecked;
+      }
+
+      function updateSelectedCount() {
+        $('#selectedCount').textContent = '已选 ' + state.selectedIds.length + ' 项';
+      }
+
+      /* ===== Filter ===== */
+      function applyFilters() {
+        var typeVal = $('#filterType').value;
+        var userKw = $('#filterUid').value.trim().toLowerCase();
+        var activityVal = $('#filterActivity').value;
+        var senderKw = $('#filterSender').value.trim().toLowerCase();
+        var contentKw = $('#filterContent').value.trim().toLowerCase();
+        var dateStart = $('#filterDateStart').value.trim();
+        var dateEnd = $('#filterDateEnd').value.trim();
+
+        state.filtered = state.data.filter(function (row) {
+          if (typeVal && row.type !== typeVal) return false;
+          if (activityVal === 'none') {
+            if (row.activity) return false;
+          } else if (activityVal) {
+            if (row.activity !== activityVal) return false;
+          }
+          if (senderKw && row.sender.toLowerCase().indexOf(senderKw) === -1) return false;
+          if (contentKw && row.content.toLowerCase().indexOf(contentKw) === -1) return false;
+          if (userKw) {
+            var hit = row.recipients.some(function (r) {
+              return r.uid.toLowerCase().indexOf(userKw) > -1 || r.name.toLowerCase().indexOf(userKw) > -1;
+            });
+            if (!hit) return false;
+          }
+          if (dateStart && row.sendTime.slice(0, 10) < dateStart) return false;
+          if (dateEnd && row.sendTime.slice(0, 10) > dateEnd) return false;
+          return true;
+        });
+
+        state.page = 1;
+        state.selectedIds = [];
+        $('#checkAll').checked = false;
+        renderTable();
+      }
+
+      function resetFilters() {
+        $('#filterContent').value = '';
+        $('#filterType').value = '';
+        $('#filterUid').value = '';
+        $('#filterActivity').value = '';
+        $('#filterSender').value = '';
+        $('#filterDateStart').value = '';
+        $('#filterDateEnd').value = '';
+        applyFilters();
+      }
+
+      /* ===== Date Picker ===== */
+      function initDatePicker() {
+        if (typeof laydate === 'undefined') return;
+        laydate.render({
+          elem: '#filterDateStart',
+          range: ['#filterDateStart', '#filterDateEnd'],
+          format: 'yyyy-MM-dd',
+          btns: [],
+          theme: '#1890ff',
+          trigger: 'click'
+        });
+
+        var clearBtn = $('#dateClearBtn');
+        if (clearBtn) {
+          clearBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            $('#filterDateStart').value = '';
+            $('#filterDateEnd').value = '';
+            applyFilters();
+          });
+        }
+      }
+
+      /* ===== Sidebar ===== */
+      function toggleSidebar(force) {
+        var sidebar = $('#sidebar');
+        var overlay = $('#sidebarOverlay');
+        var isOpen = sidebar.classList.contains('show');
+        var shouldOpen = force !== undefined ? force : !isOpen;
+        if (window.innerWidth >= 1024) {
+          sidebar.classList.toggle('collapsed', !shouldOpen);
+        } else {
+          sidebar.classList.toggle('show', shouldOpen);
+          overlay.classList.toggle('show', shouldOpen);
+        }
+      }
+
+      /* ===== Menu ===== */
+      $('#menu').addEventListener('click', function (e) {
+        var item = e.target.closest('.menu-item');
+        if (!item) return;
+        if (item.dataset.page) {
+          location.href = item.dataset.page;
+          return;
+        }
+        var level = item.dataset.level;
+        var next = item.nextElementSibling;
+        if ((level === '0' || level === '1' || level === '2')
+            && next && next.classList.contains('menu-children')) {
+          item.classList.toggle('parent-open');
+          next.classList.toggle('open');
+        }
+      });
+
+      /* ===== Events ===== */
+      $('#toggleSidebar').addEventListener('click', function () { toggleSidebar(); });
+      $('#sidebarOverlay').addEventListener('click', function () { toggleSidebar(false); });
+      window.addEventListener('resize', function () {
+        if (window.innerWidth >= 1024) $('#sidebarOverlay').classList.remove('show');
+      });
+
+      $('#quickUidBtn').addEventListener('click', function () {
+        $('#filterUid').value = $('#quickUidInput').value;
+        applyFilters();
+      });
+      $('#quickUidInput').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          $('#filterUid').value = $('#quickUidInput').value;
+          applyFilters();
+        }
+      });
+
+      $('#btnSearch').addEventListener('click', applyFilters);
+      $('#btnReset').addEventListener('click', resetFilters);
+
+      $('#checkAll').addEventListener('change', function (e) {
+        var checked = e.target.checked;
+        $$('.row-check').forEach(function (c) {
+          c.checked = checked;
+          var id = parseInt(c.dataset.id, 10);
+          var idx = state.selectedIds.indexOf(id);
+          if (checked && idx === -1) state.selectedIds.push(id);
+          else if (!checked && idx !== -1) state.selectedIds.splice(idx, 1);
+        });
+        updateSelectedCount();
+      });
+
+      $('#tableBody').addEventListener('change', function (e) {
+        if (!e.target.classList.contains('row-check')) return;
+        var id = parseInt(e.target.dataset.id, 10);
+        var idx = state.selectedIds.indexOf(id);
+        if (e.target.checked) {
+          if (idx === -1) state.selectedIds.push(id);
+        } else {
+          if (idx !== -1) state.selectedIds.splice(idx, 1);
+        }
+        updateCheckAllState();
+        updateSelectedCount();
+      });
+
+      $('#tableBody').addEventListener('click', function (e) {
+        var actionEl = e.target.closest('[data-action]');
+        if (actionEl) {
+          var id = parseInt(actionEl.dataset.id, 10);
+          var action = actionEl.dataset.action;
+          if (action === 'detail') {
+            openDetail(id);
+          } else if (action === 'recall') {
+            openRecallConfirm(id);
+          }
+          return;
+        }
+        var contentEl = e.target.closest('.msg-content-link');
+        if (contentEl) {
+          var id2 = parseInt(contentEl.dataset.id, 10);
+          openDetail(id2);
+        }
+      });
+
+      /* ===== 批次详情抽屉 ===== */
+      function openDetail(id) {
+        var row = state.data.find(function (r) { return r.id === id; });
+        if (!row) return;
+        state.currentDetailId = id;
+        detailState.currentBatchId = row.batchId;
+        detailState.recipients = row.recipients.slice();
+        detailState.filteredRecipients = detailState.recipients.slice();
+        detailState.page = 1;
+        detailState.pageSize = parseInt($('#ddPgSize').value, 10) || 20;
+
+        var st = statusInfo(row.status);
+        $('#ddType').innerHTML = '<span class="tag ' + typeClass(row.type) + '">' + typeLabel(row.type) + '</span>';
+        $('#ddActivity').textContent = row.activity || '无';
+        $('#ddSender').textContent = row.sender;
+        $('#ddTime').textContent = row.sendTime;
+        $('#ddContent').innerHTML = renderContent(row.content);
+
+        var stats = countRecipientStats(row.recipients);
+        $('#ddStats').innerHTML =
+          '<div class="ov-stats" style="display:flex">' +
+            '<span>总数 <strong>' + stats.total + '</strong></span>' +
+            '<span>成功 <strong style="color:#52c41a">' + stats.success + '</strong></span>' +
+            '<span>失败 <strong style="color:#ff4d4f">' + stats.fail + '</strong></span>' +
+            '<span>发送中 <strong style="color:#faad14">' + stats.sending + '</strong></span>' +
+          '</div>';
+
+        $('#ddUidSearch').value = '';
+        $('#ddStatusFilter').value = '';
+        $('#detailDrawer').hidden = false;
+        renderDetailRecipients();
+      }
+
+      function countRecipientStats(list) {
+        var s = { total: list.length, success: 0, fail: 0, sending: 0, recalled: 0 };
+        list.forEach(function (r) { if (s[r.status] !== undefined) s[r.status]++; });
+        return s;
+      }
+
+      function renderDetailRecipients() {
+        var list = detailState.filteredRecipients;
+        var total = list.length;
+        var totalPages = Math.max(1, Math.ceil(total / detailState.pageSize));
+        if (detailState.page > totalPages) detailState.page = totalPages;
+        var start = (detailState.page - 1) * detailState.pageSize;
+        var pageList = list.slice(start, start + detailState.pageSize);
+
+        var tbody = $('#ddRecipientBody');
+        if (!pageList.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="cell-center" style="color:var(--jlc-text-tertiary);padding:24px">暂无数据</td></tr>';
+        } else {
+          tbody.innerHTML = pageList.map(function (r, idx) {
+            var st = statusInfo(r.status);
+            return '<tr>' +
+              '<td class="cell-center">' + (start + idx + 1) + '</td>' +
+              '<td class="ellipsis" title="' + escapeHtml(r.name) + '">' + escapeHtml(r.name) + '</td>' +
+              '<td class="ellipsis" title="' + escapeHtml(r.uid) + '">' + escapeHtml(r.uid) + '</td>' +
+              '<td class="cell-center"><span class="' + st.cls + '" style="font-size:12px">' + st.label + '</span></td>' +
+              '<td class="ellipsis" title="' + escapeHtml(r.failReason || '') + '">' + escapeHtml(r.failReason || '-') + '</td>' +
+              '<td class="cell-center"><span class="link-btn" data-uid="' + escapeHtml(r.uid) + '" data-action="copy-uid">复制</span></td>' +
+            '</tr>';
+          }).join('');
+        }
+
+        $('#ddRecCount').textContent = '共 ' + total + ' 条';
+        $('#ddPgTotal').textContent = '共 ' + total + ' 条';
+        $('#ddPgNum').textContent = detailState.page + ' / ' + totalPages;
+      }
+
+      function filterDetailRecipients() {
+        var kw = $('#ddUidSearch').value.trim().toLowerCase();
+        var statusVal = $('#ddStatusFilter').value;
+        detailState.filteredRecipients = detailState.recipients.filter(function (r) {
+          if (kw && r.uid.toLowerCase().indexOf(kw) === -1 && r.name.toLowerCase().indexOf(kw) === -1) return false;
+          if (statusVal && r.status !== statusVal) return false;
+          return true;
+        });
+        detailState.page = 1;
+        renderDetailRecipients();
+      }
+
+      $('#ddClose').addEventListener('click', function () { $('#detailDrawer').hidden = true; });
+      $('#detailDrawer').addEventListener('click', function (e) {
+        if (e.target.id === 'detailDrawer') $('#detailDrawer').hidden = true;
+      });
+      $('#ddUidSearch').addEventListener('input', filterDetailRecipients);
+      $('#ddStatusFilter').addEventListener('change', filterDetailRecipients);
+      $('#ddPgSize').addEventListener('change', function () {
+        detailState.pageSize = parseInt(this.value, 10) || 20;
+        detailState.page = 1;
+        renderDetailRecipients();
+      });
+
+      $('#ddRecipientBody').addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-action="copy-uid"]');
+        if (!btn) return;
+        var uid = btn.dataset.uid;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(uid).then(function () { nmShowToast('已复制客编 ' + uid, 'success'); });
+        } else {
+          nmShowToast(uid, 'success');
+        }
+      });
+
+      /* ===== 撤回通知 ===== */
+      var recallModal = $('#nmRecallConfirmModal');
+      var _recallTargetId = null;
+
+      function openRecallConfirm(id) {
+        var row = state.data.find(function (r) { return r.id === id; });
+        if (!row) return;
+        if (row.status !== 'success') {
+          nmShowToast('仅发送成功的通知可撤回', 'error');
+          return;
+        }
+        _recallTargetId = id;
+        var snippet = row.content.replace(/\n/g, ' ');
+        if (snippet.length > 30) snippet = snippet.slice(0, 30) + '…';
+        $('#nmRecallTitle').textContent = snippet;
+        recallModal.hidden = false;
+      }
+
+      function doRecall() {
+        if (_recallTargetId == null) return;
+        var row = state.data.find(function (r) { return r.id === _recallTargetId; });
+        if (row) row.status = 'recalled';
+        recallModal.hidden = true;
+        _recallTargetId = null;
+        applyFilters();
+        nmShowToast('撤回成功', 'success');
+      }
+
+      $('#nmRecallCancel').addEventListener('click', function () { recallModal.hidden = true; });
+      $('#nmRecallOk').addEventListener('click', doRecall);
+      recallModal.addEventListener('click', function (e) {
+        if (e.target === recallModal) recallModal.hidden = true;
+      });
+
+      $('#btnExport').addEventListener('click', function () { alert('导出功能待开发'); });
+
+      $('#prevPage').addEventListener('click', function () {
+        if (state.page > 1) {
+          state.page--;
+          renderTable();
+        }
+      });
+      $('#nextPage').addEventListener('click', function () {
+        var totalPages = Math.ceil(state.filtered.length / state.pageSize);
+        if (state.page < totalPages) {
+          state.page++;
+          renderTable();
+        }
+      });
+      $('#pageNumbers').addEventListener('click', function (e) {
+        if (!e.target.classList.contains('page-num')) return;
+        state.page = parseInt(e.target.dataset.page, 10);
+        renderTable();
+      });
+      $('#jumpBtn').addEventListener('click', function () {
+        var val = parseInt($('#jumpInput').value, 10);
+        var totalPages = Math.ceil(state.filtered.length / state.pageSize);
+        if (isNaN(val) || val < 1) val = 1;
+        if (val > totalPages) val = totalPages;
+        state.page = val;
+        renderTable();
+      });
+
+      /* ===== Toast ===== */
+      function nmShowToast(msg, type) {
+        var toast = $('#nmToast');
+        toast.textContent = msg;
+        toast.className = 'toast show' + (type ? ' toast-' + type : '');
+        clearTimeout(toast._t);
+        toast._t = setTimeout(function () {
+          toast.classList.remove('show');
+        }, 2200);
+      }
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+      function nmFormatTime(iso) {
+        var d = new Date(iso);
+        var pad = function (n) { return n < 10 ? '0' + n : n; };
+        return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) +
+          ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+      }
+
+      /* ===== New Message Modal ===== */
+      function setupNewMsgModal() {
+        var modal = $('#newMsgModal');
+        var openBtn = $('#btnNewMsg');
+        var closeX = $('#newMsgModalClose');
+        var btnCancel = $('#nmModalCancel');
+        var btnOk = $('#nmModalOk');
+
+        var typeInputs = $$('#nmTypeGroup input[name="nmNotifyType"]');
+        var activityInput = $('#nmActivity');
+        var contentEditor = $('#nmContentEditor');
+        var errType = $('#nmErrType');
+        var errContent = $('#nmErrContent');
+        var errUsers = $('#nmErrUsers');
+
+        var uidInput = $('#nmUidInput');
+        var userChips = $('#nmUserChips');
+
+        var linkCardModal = $('#nmLinkCardModal');
+        var linkUrlInput = $('#nmLinkUrl');
+        var linkTitleInput = $('#nmLinkTitle');
+        var errLinkUrl = $('#nmErrLinkUrl');
+        var pendingLinkSel = { start: 0, end: 0 };   // 记录选中文本的位置，用于插入超链接
+
+        var invalidModal = $('#nmInvalidUidModal');
+        var invalidCountEl = $('#nmInvalidCount');
+        var invalidListEl = $('#nmInvalidUidList');
+
+        /* ---------- 工具 ---------- */
+        function getSelectedType() {
+          for (var i = 0; i < typeInputs.length; i++) {
+            if (typeInputs[i].checked) return typeInputs[i].value;
+          }
+          return '';
+        }
+        function setErr(el) { el.hidden = false; }
+        function clearErr(el) { el.hidden = true; }
+
+        /* ---------- 客编 chips ---------- */
+        function renderUidChips() {
+          if (!state.uidList.length) {
+            userChips.innerHTML = '';
+            return;
+          }
+          userChips.innerHTML = state.uidList.map(function (u, i) {
+            return '<span class="user-chip">' + escapeHtml(u.uid) +
+              '<span class="chip-x" data-idx="' + i + '">×</span></span>';
+          }).join('');
+        }
+
+        function addUid() {
+          var v = uidInput.value.trim();
+          if (!v) return;
+          var dup = state.uidList.some(function (u) { return u.uid === v; });
+          if (dup) {
+            nmShowToast('客编 ' + v + ' 已添加，请勿重复', 'error');
+            uidInput.value = '';
+            return;
+          }
+          state.uidList.push({ uid: v });
+          uidInput.value = '';
+          clearErr(errUsers);
+          renderUidChips();
+        }
+
+        uidInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); addUid(); }
+        });
+        userChips.addEventListener('click', function (e) {
+          var x = e.target.closest('.chip-x');
+          if (!x) return;
+          state.uidList.splice(parseInt(x.getAttribute('data-idx'), 10), 1);
+          renderUidChips();
+        });
+
+        /* ---------- 客编校验（原型模拟：FAIL 开头或位数过短视为无效） ---------- */
+        function validateUids(list) {
+          var valid = [], invalid = [];
+          list.forEach(function (u) {
+            if (/^FAIL/i.test(u.uid) || u.uid.replace(/[^A-Za-z0-9]/g, '').length < 5) {
+              invalid.push(u.uid);
+            } else {
+              valid.push(u.uid);
+            }
+          });
+          return { valid: valid, invalid: invalid };
+        }
+
+        /* ---------- 插入超链接（原型模拟：以 Markdown [text](url) 写入） ---------- */
+        $('#nmInsertLinkBtn').addEventListener('click', function () {
+          // 记录当前选中文字，作为链接标题默认值
+          pendingLinkSel.start = contentEditor.selectionStart;
+          pendingLinkSel.end = contentEditor.selectionEnd;
+          var selText = contentEditor.value.substring(pendingLinkSel.start, pendingLinkSel.end);
+          linkTitleInput.value = selText || '';
+          linkUrlInput.value = '';
+          clearErr(errLinkUrl);
+          linkUrlInput.classList.remove('input-error');
+          linkCardModal.hidden = false;
+          linkTitleInput.focus();
+        });
+        $('#nmLinkCardClose').addEventListener('click', function () { linkCardModal.hidden = true; });
+        $('#nmLinkCardCancel').addEventListener('click', function () { linkCardModal.hidden = true; });
+        linkCardModal.addEventListener('click', function (e) {
+          if (e.target === linkCardModal) linkCardModal.hidden = true;
+        });
+        $('#nmLinkCardOk').addEventListener('click', function () {
+          var title = linkTitleInput.value.trim();
+          var url = linkUrlInput.value.trim();
+          if (!title) {
+            nmShowToast('请输入链接标题', 'error');
+            linkTitleInput.focus();
+            return;
+          }
+          if (!/^https?:\/\/\S+/.test(url)) {
+            setErr(errLinkUrl);
+            linkUrlInput.classList.add('input-error');
+            return;
+          }
+          clearErr(errLinkUrl);
+          linkUrlInput.classList.remove('input-error');
+          // 以 [链接标题](链接地址) 格式插入
+          var value = contentEditor.value;
+          var md = '[' + title + '](' + url + ')';
+          contentEditor.value = value.slice(0, pendingLinkSel.start) + md + value.slice(pendingLinkSel.end);
+          contentEditor.focus();
+          contentEditor.setSelectionRange(pendingLinkSel.start + md.length, pendingLinkSel.start + md.length);
+          linkCardModal.hidden = true;
+          nmShowToast('已插入超链接');
+        });
+
+        // 富文本工具栏（原型模拟 B / I）
+        $$('#nmRichToolbar .rt-btn').forEach(function (btn) {
+          if (btn.id === 'nmInsertLinkBtn') return;
+          btn.addEventListener('click', function () {
+            nmShowToast('富文本编辑能力以线上版为准');
+          });
+        });
+
+        /* ---------- 打开 / 关闭 / 重置 ---------- */
+        function resetModal() {
+          typeInputs.forEach(function (i) { i.checked = false; });
+          activityInput.value = 'none';
+          contentEditor.value = '';
+          contentEditor.classList.remove('input-error');
+          state.uidList = [];
+          clearErr(errType);
+          clearErr(errContent);
+          clearErr(errUsers);
+          renderUidChips();
+        }
+
+        openBtn.addEventListener('click', function () {
+          resetModal();
+          effectModal.hidden = true;
+          modal.hidden = false;
+        });
+        closeX.addEventListener('click', function () { modal.hidden = true; });
+        btnCancel.addEventListener('click', function () { modal.hidden = true; });
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) modal.hidden = true;
+        });
+
+        /* ---------- 表单校验 ---------- */
+        function validateForm() {
+          var hasError = false;
+          if (!getSelectedType()) { setErr(errType); hasError = true; }
+
+          if (!contentEditor.value.trim()) {
+            setErr(errContent);
+            contentEditor.classList.add('input-error');
+            hasError = true;
+          } else {
+            clearErr(errContent);
+            contentEditor.classList.remove('input-error');
+          }
+
+          if (!state.uidList.length) { setErr(errUsers); hasError = true; }
+
+          if (hasError) nmShowToast('请完善必填项', 'error');
+          return !hasError;
+        }
+
+        contentEditor.addEventListener('input', function () {
+          if (contentEditor.value.trim()) {
+            clearErr(errContent);
+            contentEditor.classList.remove('input-error');
+          }
+        });
+        typeInputs.forEach(function (i) {
+          i.addEventListener('change', function () { clearErr(errType); });
+        });
+        uidInput.addEventListener('input', function () { if (state.uidList.length) clearErr(errUsers); });
+
+        /* ---------- 发送（无确认，点发送即发） ---------- */
+        btnOk.addEventListener('click', function () {
+          if (!validateForm()) return;
+          doSend();
+        });
+
+        /* ---------- 无效客编提示 ---------- */
+        function showInvalidUids(invalidList) {
+          invalidCountEl.textContent = invalidList.length;
+          invalidListEl.innerHTML = invalidList.map(function (uid) {
+            return '<span class="invalid-uid-item">' + escapeHtml(uid) + '</span>';
+          }).join('');
+          invalidModal.hidden = false;
+        }
+        $('#nmInvalidUidOk').addEventListener('click', function () { invalidModal.hidden = true; });
+        invalidModal.addEventListener('click', function (e) {
+          if (e.target === invalidModal) invalidModal.hidden = true;
+        });
+
+        /* ---------- 发送 ---------- */
+        function mockSend() {
+          var success = [];
+          var fail = [];
+          var failReasons = ['用户状态异常', '系统异常', '网络连接超时', '账号已注销'];
+          state.uidList.forEach(function (u) {
+            if (Math.random() < 0.92) {
+              success.push(u);
+            } else {
+              fail.push({ uid: u.uid, reason: failReasons[Math.floor(Math.random() * failReasons.length)] });
+            }
+          });
+          return { success: success, fail: fail };
+        }
+
+        function userNameOf(uid) {
+          var hit = MOCK_USERS.find(function (u) { return u.uid === uid; });
+          return hit ? hit.name : uid;
+        }
+
+        function doSend() {
+          // 1. 发送前校验客编有效性，无效则拦截并提示
+          var check = validateUids(state.uidList);
+          if (check.invalid.length) {
+            showInvalidUids(check.invalid);
+            return;
+          }
+          // 2. 模拟发送过程
+          btnOk.disabled = true;
+          btnOk.textContent = '发送中...';
+          setTimeout(function () {
+            btnOk.disabled = false;
+            btnOk.textContent = '发送';
+            var result = mockSend();
+            var failList = result.fail.map(function (f) {
+              return { name: userNameOf(f.uid), username: userNameOf(f.uid), uid: f.uid, reason: f.reason };
+            });
+            // 3. 生成一条批次发送记录，插入列表顶部
+            var content = contentEditor.value.trim();
+            var nowStr = nmFormatTime(new Date().toISOString());
+            var type = getSelectedType();
+            var activity = activityInput.value === 'none' ? '' : activityInput.value.trim();
+            var sender = '当前用户';
+            var now = new Date();
+            var nowCode = '' + now.getFullYear() + pad2(now.getMonth() + 1) + pad2(now.getDate());
+
+            var recipients = [];
+            result.success.forEach(function (u) {
+              recipients.push({
+                name: userNameOf(u.uid),
+                username: userNameOf(u.uid),
+                uid: u.uid,
+                status: 'success'
+              });
+            });
+            result.fail.forEach(function (f) {
+              recipients.push({
+                name: userNameOf(f.uid),
+                username: userNameOf(f.uid),
+                uid: f.uid,
+                status: 'fail',
+                failReason: f.reason
+              });
+            });
+
+            var batchStatus = 'success';
+            if (recipients.some(function (r) { return r.status === 'sending'; })) batchStatus = 'sending';
+            else if (recipients.some(function (r) { return r.status === 'fail'; })) batchStatus = 'fail';
+
+            var newBatch = {
+              id: Date.now(),
+              batchId: 'B' + nowCode + '001',
+              type: type,
+              activity: activity,
+              content: content,
+              sender: sender,
+              sendTime: nowStr,
+              status: batchStatus,
+              count: recipients.length,
+              recipients: recipients
+            };
+            state.data.unshift(newBatch);
+
+            // 4. 刷新列表并反馈结果
+            applyFilters();
+            showSendResultAlert(result.success.length, result.fail.length, failList);
+            modal.hidden = true;
+            // 5. 展示接收方视角的通知效果
+            if (recipients.length > 0) {
+              showEffect({ type: type, sendTime: nowStr, content: content, sender: sender });
+            }
+          }, 1200);
+        }
+
+        /* ---------- 通知效果展示（模拟接收方视角） ---------- */
+        var effectModal = $('#nmEffectModal');
+        var effectTagEl = $('#nmEffectTag');
+        var effectTimeEl = $('#nmEffectTime');
+        var effectContentEl = $('#nmEffectContent');
+        var effectMetaEl = $('#nmEffectMeta');
+
+        function showEffect(row) {
+          effectTagEl.className = 'tag msg-effect-tag ' + typeClass(row.type);
+          effectTagEl.textContent = typeLabel(row.type);
+          effectTimeEl.textContent = row.sendTime;
+          effectContentEl.innerHTML = renderContent(row.content);
+          effectMetaEl.textContent = '来自 ' + row.sender;
+          effectModal.hidden = false;
+        }
+        $('#nmEffectClose').addEventListener('click', function () { effectModal.hidden = true; });
+        $('#nmEffectOk').addEventListener('click', function () { effectModal.hidden = true; });
+        effectModal.addEventListener('click', function (e) {
+          if (e.target === effectModal) effectModal.hidden = true;
+        });
+
+        var _lastFailList = [];
+
+        function showSendResultAlert(successCount, failCount, failList) {
+          var alert = $('#nmSendResultAlert');
+          var textEl = $('#nmSendResultText');
+          var exportBtn = $('#nmSendResultExportBtn');
+
+          _lastFailList = failList || [];
+
+          var html = '';
+          if (successCount > 0 && failCount > 0) {
+            html = '通知发送成功 <span class="rs-success-num">' + successCount + '</span> 人，失败 <span class="rs-fail-num">' + failCount + '</span> 人';
+          } else if (successCount > 0) {
+            html = '通知已成功发送';
+          } else {
+            html = '通知发送失败';
+          }
+          textEl.innerHTML = html;
+
+          alert.classList.remove('has-fail', 'all-fail');
+          if (successCount > 0 && failCount > 0) {
+            alert.classList.add('has-fail');
+          } else if (successCount === 0) {
+            alert.classList.add('all-fail');
+          }
+
+          exportBtn.hidden = !(failCount > 0 && failList && failList.length);
+
+          alert.hidden = false;
+          clearTimeout(alert._t);
+          alert._t = setTimeout(function () {
+            alert.hidden = true;
+          }, 4000);
+
+          exportBtn.onclick = exportFailList;
+        }
+
+        function exportFailList() {
+          if (!_lastFailList || !_lastFailList.length) return;
+          var header = '用户账号,客编,失败原因\n';
+          var rows = _lastFailList.map(function (u) {
+            return '"' + (u.username || u.name) + '","' + u.uid + '","' + u.reason + '"';
+          }).join('\n');
+          var csv = '\uFEFF' + header + rows;
+          var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = '发送失败名单_' + new Date().toISOString().slice(0, 10) + '.csv';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+
+        renderUidChips();
+      }
+
+      /* ===== Init ===== */
+      setupNewMsgModal();
+      initDatePicker();
+      renderTable();
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
