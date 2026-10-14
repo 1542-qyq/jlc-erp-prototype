@@ -151,54 +151,6 @@
       showToast('导出成功，共 ' + list.length + ' 条记录');
     }
 
-    /* ===== 发送结果横幅 ===== */
-    var _lastFailList = [];
-    function showSendResultAlert(successCount, failCount, failList) {
-      var alert = $('#nmSendResultAlert');
-      var textEl = $('#nmSendResultText');
-      var exportBtn = $('#nmSendResultExportBtn');
-
-      _lastFailList = (failList || []).map(function (u) {
-        return { userName: u.userName || userNameOf(u.uid), uid: u.uid, reason: u.reason };
-      });
-
-      var html = '';
-      if (successCount > 0 && failCount > 0) {
-        html = '通知发送成功 <span class="rs-success-num">' + successCount + '</span> 人，失败 <span class="rs-fail-num">' + failCount + '</span> 人';
-      } else if (successCount > 0) {
-        html = '通知已成功发送';
-      } else {
-        html = '通知发送失败';
-      }
-      textEl.innerHTML = html;
-
-      alert.classList.remove('has-fail', 'all-fail');
-      if (successCount > 0 && failCount > 0) alert.classList.add('has-fail');
-      else if (successCount === 0) alert.classList.add('all-fail');
-
-      exportBtn.hidden = !(failCount > 0 && _lastFailList.length);
-      alert.hidden = false;
-      clearTimeout(alert._t);
-      alert._t = setTimeout(function () { alert.hidden = true; }, 4000);
-      exportBtn.onclick = exportFailList;
-    }
-    function exportFailList() {
-      if (!_lastFailList.length) return;
-      var rows = ['接收用户,客编,失败原因'];
-      _lastFailList.forEach(function (u) {
-        rows.push(csvEscape(u.userName) + ',' + csvEscape(u.uid) + ',' + csvEscape(u.reason));
-      });
-      var csv = '\ufeff' + rows.join('\n');
-      var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = '发送失败名单_' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '.csv';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      showToast('已导出 ' + _lastFailList.length + ' 条失败记录');
-    }
-
     /* ===== 状态 ===== */
     var state = {
       allData: genMockData(100),
@@ -382,172 +334,6 @@
       if (btn) btn.hidden = state.selectedIds.length === 0;
     }
 
-    /* ===== 发送 ===== */
-    var nmUids = [];
-    function renderNmUserChips() {
-      var html = '';
-      nmUids.forEach(function (uid) {
-        html += '<span class="user-chip">' + escapeHtml(uid) + '<button type="button" data-uid="' + uid + '" title="移除">×</button></span>';
-      });
-      $('#nmUserChips').innerHTML = html;
-    }
-
-    function setupNewMsgModal() {
-      var btnNewMsg = $('#btnNewMsg');
-      if (!btnNewMsg) return;
-
-      $('#nmTypeSystem').checked = true;
-      $('#nmActivity').value = 'none';
-      $('#nmContentEditor').value = '';
-      nmUids = [];
-      renderNmUserChips();
-      clearNmErrors();
-
-      btnNewMsg.addEventListener('click', function () {
-        $('#newMsgModal').hidden = false;
-      });
-      $('#newMsgModalClose').addEventListener('click', closeNewMsgModal);
-      $('#nmModalCancel').addEventListener('click', closeNewMsgModal);
-      $('#nmModalOk').addEventListener('click', doSend);
-
-      $('#nmUidInput').addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          var val = e.target.value.trim();
-          if (!val) return;
-          var parts = val.split(/[\s,，]+/);
-          parts.forEach(function (p) {
-            p = p.trim();
-            if (!p) return;
-            if (nmUids.indexOf(p) === -1) nmUids.push(p);
-          });
-          renderNmUserChips();
-          e.target.value = '';
-        }
-      });
-      $('#nmUserChips').addEventListener('click', function (e) {
-        if (e.target.tagName === 'BUTTON') {
-          var uid = e.target.dataset.uid;
-          nmUids = nmUids.filter(function (u) { return u !== uid; });
-          renderNmUserChips();
-        }
-      });
-
-      $('#nmInsertLinkBtn').addEventListener('click', function () {
-        $('#nmLinkCardModal').hidden = false;
-      });
-      $('#nmLinkCardClose').addEventListener('click', closeLinkCard);
-      $('#nmLinkCardCancel').addEventListener('click', closeLinkCard);
-      $('#nmLinkCardOk').addEventListener('click', insertLink);
-
-      $('#nmInvalidUidOk').addEventListener('click', function () { $('#nmInvalidUidModal').hidden = true; });
-      $('#nmEffectClose').addEventListener('click', function () { $('#nmEffectModal').hidden = true; });
-      $('#nmEffectOk').addEventListener('click', function () { $('#nmEffectModal').hidden = true; });
-      $('#nmEffectModal').addEventListener('click', function (e) { if (e.target.id === 'nmEffectModal') this.hidden = true; });
-      $('#nmDetailClose').addEventListener('click', closeDetail);
-      $('#nmDetailOk').addEventListener('click', closeDetail);
-      $('#nmRecallCancel').addEventListener('click', closeRecallConfirm);
-      $('#nmRecallOk').addEventListener('click', doRecall);
-    }
-
-    function closeNewMsgModal() {
-      $('#newMsgModal').hidden = true;
-      clearNmErrors();
-    }
-    function clearNmErrors() {
-      $('#nmErrType').hidden = true;
-      $('#nmErrContent').hidden = true;
-      $('#nmErrUsers').hidden = true;
-    }
-    function closeLinkCard() {
-      $('#nmLinkCardModal').hidden = true;
-      $('#nmLinkTitle').value = '';
-      $('#nmLinkUrl').value = '';
-      $('#nmErrLinkTitle').hidden = true;
-      $('#nmErrLinkUrl').hidden = true;
-    }
-    function insertLink() {
-      var title = $('#nmLinkTitle').value.trim();
-      var url = $('#nmLinkUrl').value.trim();
-      if (!title) {
-        $('#nmErrLinkTitle').hidden = false; return;
-      }
-      if (!url || !/^https?:\/\//.test(url)) {
-        $('#nmErrLinkUrl').hidden = false; return;
-      }
-      var editor = $('#nmContentEditor');
-      var linkText = '[' + title + '](' + url + ')';
-      var start = editor.selectionStart;
-      var end = editor.selectionEnd;
-      var val = editor.value;
-      editor.value = val.slice(0, start) + linkText + val.slice(end);
-      editor.focus();
-      editor.selectionStart = editor.selectionEnd = start + linkText.length;
-      closeLinkCard();
-    }
-
-    function doSend() {
-      clearNmErrors();
-      var typeEl = document.querySelector('input[name="nmNotifyType"]:checked');
-      var type = typeEl ? typeEl.value : '';
-      var activity = $('#nmActivity').value;
-      var content = $('#nmContentEditor').value.trim();
-      var validUids = [];
-      var invalidUids = [];
-      nmUids.forEach(function (uid) {
-        if (validateUid(uid)) validUids.push(uid);
-        else invalidUids.push(uid);
-      });
-
-      var hasError = false;
-      if (!type) { $('#nmErrType').hidden = false; hasError = true; }
-      if (!content) { $('#nmErrContent').hidden = false; hasError = true; }
-      if (validUids.length === 0) { $('#nmErrUsers').hidden = false; hasError = true; }
-      if (hasError) return;
-
-      if (invalidUids.length > 0) {
-        $('#nmInvalidCount').textContent = invalidUids.length;
-        $('#nmInvalidUidList').innerHTML = invalidUids.map(function (u) { return '<span class="invalid-uid-item">' + escapeHtml(u) + '</span>'; }).join('');
-        $('#nmInvalidUidModal').hidden = false;
-        return;
-      }
-
-      var now = formatDateTime(new Date());
-      var successCount = 0;
-      var failList = [];
-      validUids.forEach(function (uid) {
-        var status = Math.random() < 0.85 ? 'success' : (Math.random() < 0.5 ? 'fail' : 'sending');
-        var failReason = status === 'fail' ? FAIL_REASONS[Math.floor(Math.random() * FAIL_REASONS.length)] : '';
-        if (status === 'fail') {
-          failList.push({ userName: userNameOf(uid), uid: uid, reason: failReason });
-        } else if (status === 'success') {
-          successCount++;
-        }
-        state.allData.unshift({
-          id: 'R' + (_idCounter++),
-          uid: uid,
-          userName: userNameOf(uid),
-          content: content,
-          type: type,
-          activity: activity,
-          sender: '当前管理员',
-          sendTime: now,
-          status: status,
-          failReason: failReason
-        });
-      });
-
-      closeNewMsgModal();
-      applyFilters();
-      $('#nmEffectTag').textContent = typeLabel(type);
-      $('#nmEffectTag').className = 'msg-effect-tag';
-      $('#nmEffectTime').textContent = now;
-      $('#nmEffectContent').textContent = content;
-      $('#nmEffectMeta').textContent = '发送给 ' + validUids.length + ' 位用户';
-      $('#nmEffectModal').hidden = false;
-      showSendResultAlert(successCount, failList.length, failList);
-    }
-
     /* ===== Toast ===== */
     function showToast(msg, type) {
       var toast = $('#nmToast');
@@ -558,6 +344,14 @@
     }
 
     /* ===== 事件绑定 ===== */
+    // 详情弹窗
+    $('#nmDetailClose').addEventListener('click', closeDetail);
+    $('#nmDetailOk').addEventListener('click', closeDetail);
+
+    // 撤回确认弹窗
+    $('#nmRecallCancel').addEventListener('click', closeRecallConfirm);
+    $('#nmRecallOk').addEventListener('click', doRecall);
+
     // 导出记录
     $('#btnExport').addEventListener('click', exportRecords);
 
@@ -687,7 +481,6 @@
   }
 
   /* ===== 初始化 ===== */
-  setupNewMsgModal();
   initDatePicker();
   applyFilters();
 })();

@@ -113,9 +113,9 @@
                 <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
               </div>
               <div class="menu-children sub2 open">
-                  <div class="menu-item lv3 active" data-level="3" data-page="message.html"><span class="mi-text">站内信发送记录</span></div>
                 <div class="menu-item lv3" data-level="3" data-page="message-log.html"><span class="mi-text">消息通知管理</span></div>
-                </div>
+                <div class="menu-item lv3 active" data-level="3" data-page="message.html"><span class="mi-text">站内信发送记录</span></div>
+              </div>
             </div>
             <div class="menu-item lv1" data-level="1">
               <span class="mi-text">合作专区管理</span>
@@ -309,10 +309,6 @@
       <section class="action-bar">
         <div class="action-left">
           <span class="action-label">常用功能：</span>
-          <button type="button" class="btn btn-primary" id="btnNewMsg">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            新建通知
-          </button>
           <button type="button" class="btn btn-danger" id="btnBatchRecall" hidden="">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
             批量撤回
@@ -390,156 +386,6 @@
   </div>
 
   
-
-  <!-- ===== 新建通知 Modal ===== -->
-  <div class="modal-mask" id="newMsgModal">
-    <div class="modal modal-new" role="dialog" aria-modal="true" aria-labelledby="newMsgModalTitle">
-      <div class="modal-head">
-        <span class="modal-title" id="newMsgModalTitle">新建通知</span>
-        <button class="modal-close" id="newMsgModalClose" aria-label="关闭">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- 通知类型（单选） -->
-        <div class="modal-row">
-          <label class="modal-label"><span class="required">*</span>通知类型</label>
-          <div class="type-group" id="nmTypeGroup">
-            <label class="type-item">
-              <input type="radio" name="nmNotifyType" value="system" id="nmTypeSystem" checked="">
-              <span>系统通知</span>
-            </label>
-            <label class="type-item">
-              <input type="radio" name="nmNotifyType" value="audit" id="nmTypeAudit">
-              <span>审核通知</span>
-            </label>
-            <label class="type-item">
-              <input type="radio" name="nmNotifyType" value="activity" id="nmTypeActivity">
-              <span>活动通知</span>
-            </label>
-            <label class="type-item">
-              <input type="radio" name="nmNotifyType" value="coupon" id="nmTypeCoupon">
-              <span>优惠券通知</span>
-            </label>
-          </div>
-          <div class="field-error" id="nmErrType" hidden="">请选择通知类型</div>
-        </div>
-
-        <!-- 关联活动 -->
-        <div class="modal-row" style="position: relative;">
-          <label class="modal-label">关联活动</label>
-          <div class="in-wrap">
-            <select id="nmActivity">
-              <option value="none" selected="">无</option>
-              <option value="星火计划2026">星火计划2026</option>
-              <option value="电赛活动0301">电赛活动0301</option>
-              <option value="电商活动1201">电商活动1201</option>
-              <option value="周年活动1215">周年活动1215</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- 通知内容（富文本） -->
-        <div class="modal-row">
-          <label class="modal-label"><span class="required">*</span>通知内容</label>
-          <div class="editor-block">
-            <!-- 富文本工具栏（原型模拟） -->
-            <div class="rich-toolbar" id="nmRichToolbar">
-              
-              
-              <button type="button" class="rt-btn" title="插入链接" id="nmInsertLinkBtn" style="position: relative;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                链接
-              </button>
-              <span class="rt-hint">富文本编辑器</span>
-            </div>
-            <textarea class="notify-editor" id="nmContentEditor" placeholder="请输入通知内容..." style="min-height:160px;"></textarea>
-            <div class="field-error" id="nmErrContent" hidden="">请输入通知内容</div>
-          </div>
-        </div>
-
-        <!-- 指定客编 -->
-        <div class="modal-row">
-          <label class="modal-label"><span class="required">*</span>指定客编</label>
-          <div class="editor-block">
-            <div class="uid-actions-bar">
-              <button type="button" class="btn btn-tpl" id="nmDownloadTplBtn">下载模板</button>
-              <button type="button" class="btn btn-primary" id="nmImportBtn">导入</button>
-            </div>
-            <div class="user-picker">
-              <textarea class="user-search user-search-multiline" id="nmUidInput" rows="1" placeholder="支持粘贴输入；多个客编用;分隔（单次上限200个）" autocomplete="off"></textarea>
-              <input type="file" id="nmImportFile" accept=".xlsx,.xls,.csv,.txt" hidden="">
-            </div>
-            <div class="field-error" id="nmErrUsers" hidden="">请添加至少一个发送客编</div>
-            <div class="user-chips" id="nmUserChips"></div>
-            <p class="notify-hint">支持xlsx/xls格式，自动去空格、去空行、去重</p>
-          </div>
-        </div>
-      </div>
-      <div class="modal-foot">
-        <div class="modal-foot-right">
-          <button type="button" class="btn btn-default" id="nmModalCancel">取消</button>
-          <button type="button" class="btn btn-primary" id="nmModalOk">发送</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== 插入超链接弹窗 ===== -->
-  <div class="modal-mask" id="nmLinkCardModal" hidden="">
-    <div class="modal modal-sm" role="dialog" aria-modal="true">
-      <div class="modal-head">
-        <span class="modal-title">插入链接</span>
-        <button class="modal-close" id="nmLinkCardClose" aria-label="关闭">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-row">
-          <label class="modal-label"><span class="required">*</span>链接标题</label>
-          <div class="in-wrap">
-            <input type="text" id="nmLinkTitle" placeholder="请输入链接标题">
-          </div>
-        </div>
-        <div class="modal-row">
-          <label class="modal-label"><span class="required">*</span>链接地址</label>
-          <div class="in-wrap">
-            <input type="text" id="nmLinkUrl" placeholder="请输入链接地址，如：https://lceda.cn/activity">
-          </div>
-          <div class="field-error" id="nmErrLinkUrl" hidden="">请输入有效的链接地址</div>
-        </div>
-      </div>
-      <div class="modal-foot">
-        <div class="modal-foot-right">
-          <button type="button" class="btn btn-default" id="nmLinkCardCancel">取消</button>
-          <button type="button" class="btn btn-primary" id="nmLinkCardOk">确定</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== 无效客编提示弹窗 ===== -->
-  <div class="modal-mask" id="nmInvalidUidModal" hidden="">
-    <div class="modal modal-sm" role="dialog" aria-modal="true">
-      <div class="modal-head">
-        <span class="modal-title">客编校验未通过</span>
-      </div>
-      <div class="modal-body">
-        <div class="confirm-tip-icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#faad14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-        </div>
-        <div class="confirm-tip-text">
-          <p>以下 <strong id="nmInvalidCount">1</strong> 个客编无效，请确认后重新发送</p>
-          <div class="invalid-uid-list" id="nmInvalidUidList"><span class="invalid-uid-item">A</span></div>
-        </div>
-      </div>
-      <div class="modal-foot">
-        <div class="modal-foot-right">
-          <button type="button" class="btn btn-default" id="nmInvalidUidOk">我知道了</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- ===== 撤回确认弹窗 ===== -->
   <div class="modal-mask" id="nmRecallConfirmModal" hidden="">
@@ -626,48 +472,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- ===== 通知效果展示 Modal（模拟接收方视角） ===== -->
-  <div class="modal-mask" id="nmEffectModal" hidden="" style="z-index: 1001;">
-    <div class="modal modal-md" role="dialog" aria-modal="true" aria-labelledby="nmEffectTitle">
-      <div class="modal-head">
-        <span class="modal-title" id="nmEffectTitle">发送成功 · 通知效果</span>
-        <button class="modal-close" id="nmEffectClose" aria-label="关闭">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p class="effect-tip">以下为接收方（客编用户）在站内信列表中看到的通知效果：</p>
-        <div class="msg-effect-phone">
-          <div class="msg-effect-appbar">
-            <span class="msg-effect-appname">站内信</span>
-            <span class="msg-effect-badge">未读</span>
-          </div>
-          <div class="msg-effect-list">
-            <div class="msg-effect-card">
-              <div class="msg-effect-head">
-                <span class="msg-effect-tag" id="nmEffectTag">系统通知</span>
-                <span class="msg-effect-time" id="nmEffectTime"></span>
-              </div>
-              <div class="msg-effect-content" id="nmEffectContent"></div>
-              <div class="msg-effect-meta" id="nmEffectMeta"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-foot">
-        <div class="modal-foot-right">
-          <button type="button" class="btn btn-primary" id="nmEffectOk">知道了</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Send Result Alert -->
-  <div class="send-result-alert" id="nmSendResultAlert" hidden="">
-    <div class="send-result-content" id="nmSendResultText"></div>
-    <button class="send-result-export" id="nmSendResultExportBtn" hidden="">导出失败名单</button>
   </div>
 
   <!-- Toast -->

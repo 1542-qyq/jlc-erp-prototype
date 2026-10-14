@@ -464,3 +464,60 @@
 .layui-laydate-range .layui-laydate-main {
   width: 263px !important;
 }
+
+/* ===== 新建通知弹窗（800×650） ===== */
+.modal-new {
+  width: 800px;
+  height: 650px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 60px);
+}
+
+.uid-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.uid-actions-bar .btn {
+  font-size: 13px;
+}
+
+.btn-tpl {
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--jlc-border);
+  border-radius: var(--jlc-radius-md);
+  background: #fff;
+  color: var(--jlc-text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all var(--jlc-transition);
+}
+
+.btn-tpl:hover {
+  color: var(--jlc-primary);
+  border-color: var(--jlc-primary);
+}
+
+.user-search-multiline {
+  min-height: 40px;
+  height: auto;
+  padding: 6px 12px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.user-chip .chip-x {
+  cursor: pointer;
+  margin-left: 2px;
+  color: var(--jlc-primary);
+  opacity: 0.7;
+  transition: opacity var(--jlc-transition), color var(--jlc-transition);
+}
+
+.user-chip .chip-x:hover {
+  opacity: 1;
+  color: var(--jlc-danger);
+}

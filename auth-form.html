@@ -61,6 +61,24 @@
       background: #409eff;
     }
 
+    .template-btn {
+      height: 30px;
+      padding: 0 14px;
+      font-size: 13px;
+      color: #409eff;
+      background: #fff;
+      border: 1px solid #409eff;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .template-btn:hover {
+      color: #fff;
+      background: #409eff;
+    }
+
     .close-btn {
       background: none;
       border: none;
@@ -79,6 +97,28 @@
       display: flex;
       align-items: flex-start;
       margin-bottom: 20px;
+    }
+
+    .form-item-stack {
+      display: block;
+    }
+
+    .form-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .form-row-top .form-label {
+      width: auto;
+      padding-top: 0;
+      text-align: left;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
     }
 
     .form-label {
@@ -101,21 +141,12 @@
       min-width: 0;
     }
 
-    .input-with-btn {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .input-with-btn input[type="text"] {
-      flex: 1;
-    }
-
     input[type="text"],
-    select {
+    select,
+    textarea {
       width: 100%;
-      height: 36px;
-      padding: 0 12px;
+      min-height: 36px;
+      padding: 8px 12px;
       border: 1px solid #d9d9d9;
       border-radius: 4px;
       font-size: 14px;
@@ -125,12 +156,20 @@
       background: #fff;
     }
 
-    input[type="text"]::placeholder {
+    textarea {
+      resize: vertical;
+      line-height: 1.5;
+      font-family: inherit;
+    }
+
+    input[type="text"]::placeholder,
+    textarea::placeholder {
       color: #bfbfbf;
     }
 
     input[type="text"]:focus,
-    select:focus {
+    select:focus,
+    textarea:focus {
       border-color: #409eff;
     }
 
@@ -292,14 +331,18 @@
       <button class="close-btn">×</button>
     </div>
     <div class="modal-body">
-      <div class="form-item">
-        <div class="form-label"><span class="required">*</span>用户名/团队标识：</div>
-        <div class="form-control">
-          <div class="input-with-btn">
-            <input type="text" placeholder="多个用户名/团队标识用;分隔（单次上限200个）">
-            <button class="import-btn">导入</button>
+      <div class="form-item form-item-stack">
+        <div class="form-row-top">
+          <div class="form-label"><span class="required">*</span>用户名/团队标识：</div>
+          <div class="top-actions">
+            <button type="button" class="template-btn" onclick="downloadTemplate()">下载模板</button>
+            <button type="button" class="import-btn" onclick="triggerImport()">导入</button>
+            <input type="file" id="importFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleImport(event)">
           </div>
-          <div class="upload-hint">支持xlsx/xls格式，自动去空格、去空行、去重</div>
+        </div>
+        <div class="form-control" style="width: 429px; height: 59.5px; transform: matrix(1, 0, 0, 1, 127, 2.5);">
+          <textarea id="userInput" rows="1" placeholder="多个用户名/团队标识用;分隔" style="height: 33.5px; width: 409.5px; transform: matrix(1, 0, 0, 1, 19.5, 0);"></textarea>
+          <div class="upload-hint" style="width: 409px; height: 20px; transform: matrix(1, 0, 0, 1, 20, -4);">支持xlsx/xls格式，自动去空格、去空行、去重</div>
         </div>
       </div>
 
@@ -340,6 +383,68 @@
       <button class="btn btn-default">取消</button>
     </div>
   </div>
+
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+  <script>
+    function downloadTemplate() {
+      const content = '\uFEFF客编\r\n';
+      const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = '客编导入模板.csv';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }
+
+    function triggerImport() {
+      document.getElementById('importFile').click();
+    }
+
+    function handleImport(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+          const json = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+          const values = [];
+          const seen = new Set();
+          for (let i = 1; i < json.length; i++) {
+            const row = json[i];
+            if (!row || row.length === 0) continue;
+            let value = String(row[0]).trim();
+            if (value === '') continue;
+            if (!seen.has(value)) {
+              seen.add(value);
+              values.push(value);
+            }
+          }
+
+          const input = document.getElementById('userInput');
+          const existing = input.value.split(';').map(v => v.trim()).filter(v => v);
+          const existingSet = new Set(existing);
+          values.forEach(v => {
+            if (!existingSet.has(v)) {
+              existingSet.add(v);
+              existing.push(v);
+            }
+          });
+          input.value = existing.join(';');
+        } catch (err) {
+          alert('文件解析失败：' + err.message);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+      event.target.value = '';
+    }
+  </script>
 
 
 </body></html>

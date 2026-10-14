@@ -1297,7 +1297,8 @@ svg { flex-shrink: 0; }
   margin-right: 2px;
 }
 
-.editor-block {
+.editor-block,
+.field-wrap {
   flex: 1;
   min-width: 0;
 }
