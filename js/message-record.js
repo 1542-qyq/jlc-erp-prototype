@@ -55,6 +55,14 @@
 
     /* ===== 数据生成 ===== */
     var _idCounter = 10000;
+    var _batchCounter = 1;
+    function genBatchId() {
+      var now = new Date();
+      var pad = function (n) { return String(n).padStart(2, '0'); };
+      var year = String(now.getFullYear()).slice(-2);
+      var seq = String(_batchCounter++).padStart(3, '0');
+      return 'B' + year + pad(now.getMonth() + 1) + pad(now.getDate()) + seq;
+    }
     function genMockData(n) {
       var list = [];
       for (var i = 0; i < n; i++) {
@@ -70,6 +78,7 @@
 
         list.push({
           id: 'R' + (_idCounter++),
+          batchId: genBatchId(),
           uid: user.uid,
           userName: user.name,
           content: CONTENTS[i % CONTENTS.length],
@@ -133,10 +142,10 @@
     function exportRecords() {
       var list = state.filtered;
       if (list.length === 0) { showToast('没有可导出的记录', 'error'); return; }
-      var headers = ['序号', '接收用户', '客编', '通知内容', '通知类型', '关联活动', '发送人', '发送时间', '发送状态'];
+      var headers = ['序号', '接收用户', '客编', '批次ID', '通知内容', '通知类型', '关联活动', '发送人', '发送时间', '发送状态'];
       var rows = [headers.join(',')];
       list.forEach(function (row, idx) {
-        rows.push([idx + 1, csvEscape(row.userName), csvEscape(row.uid), csvEscape(row.content),
+        rows.push([idx + 1, csvEscape(row.userName), csvEscape(row.uid), csvEscape(row.batchId), csvEscape(row.content),
           csvEscape(typeLabel(row.type)), csvEscape(row.activity || '无'), csvEscape(row.sender),
           csvEscape(row.sendTime), csvEscape(statusLabel(row.status))].join(','));
       });
@@ -164,6 +173,8 @@
     /* ===== 筛选 ===== */
     function applyFilters() {
       var content = $('#filterContent').value.trim().toLowerCase();
+      var batchId = $('#filterBatchId').value.trim().toUpperCase();
+      var uid = $('#filterUid').value.trim().toUpperCase();
       var type = $('#filterType').value;
       var activity = $('#filterActivity').value;
       var sender = $('#filterSender').value.trim().toLowerCase();
@@ -173,6 +184,8 @@
 
       state.filtered = state.allData.filter(function (row) {
         if (content && row.content.toLowerCase().indexOf(content) === -1) return false;
+        if (batchId && row.batchId.toUpperCase().indexOf(batchId) === -1) return false;
+        if (uid && row.uid.toUpperCase().indexOf(uid) === -1) return false;
         if (type && row.type !== type) return false;
         if (activity && row.activity !== activity) return false;
         if (sender && row.sender.toLowerCase().indexOf(sender) === -1) return false;
@@ -211,7 +224,7 @@
         var typeTxt = typeLabel(row.type);
         var activityTitle = escapeHtml(row.activity);
         var contentTitle = escapeHtml(row.content);
-        var shortContent = row.content.length > 32 ? row.content.slice(0, 32) + '…' : row.content;
+        var fullContent = row.content;
         var canRecall = row.status === 'success';
 
         html += '<tr data-id="' + row.id + '"' + (row.status === 'sending' ? ' class="row-sending"' : '') + '>' +
@@ -223,14 +236,14 @@
               '<span class="msg-user-id link-btn" data-action="copy-uid" data-uid="' + row.uid + '" title="点击复制客编" style="font-size:14px;color:#1677ff;cursor:pointer;">' + escapeHtml(row.uid) + '</span>' +
             '</div>' +
           '</td>' +
-          '<td class="ellipsis msg-content-link" data-id="' + row.id + '" title="' + contentTitle + '" style="font-size:14px;">' + escapeHtml(shortContent) + '</td>' +
+          '<td class="cell-center batch-id-cell">' + escapeHtml(row.batchId) + '</td>' +
+          '<td class="msg-content-cell msg-content-link" data-id="' + row.id + '" title="' + contentTitle + '" style="font-size:14px;">' + escapeHtml(fullContent) + '</td>' +
           '<td style="font-size:14px;">' + typeTxt + '</td>' +
           '<td class="ellipsis" title="' + activityTitle + '" style="font-size:14px;">' + escapeHtml(row.activity) + '</td>' +
           '<td class="ellipsis" title="' + escapeHtml(row.sender) + '" style="font-size:14px;">' + escapeHtml(row.sender) + '</td>' +
           '<td style="font-size:14px;">' + row.sendTime + '</td>' +
           '<td class="cell-center"><span class="' + statusCls + '" style="font-size:14px;">' + statusTxt + '</span></td>' +
           '<td class="cell-center" style="white-space:nowrap;">' +
-            '<span class="link-btn" data-id="' + row.id + '" data-action="detail">查看详情</span>' +
             (canRecall ? '<span class="link-btn link-danger" data-id="' + row.id + '" data-action="recall">撤回</span>' : '') +
           '</td>' +
           '</tr>';
@@ -275,6 +288,7 @@
     function openDetail(id) {
       var row = state.allData.find(function (r) { return r.id === id; });
       if (!row) return;
+      $('#ndBatchId').textContent = row.batchId;
       $('#ndUser').textContent = row.userName;
       $('#ndUid').textContent = row.uid;
       $('#ndType').textContent = typeLabel(row.type);
@@ -355,18 +369,14 @@
     // 导出记录
     $('#btnExport').addEventListener('click', exportRecords);
 
-    // 筛选区收起/展开
-    $('#toggleFilter').addEventListener('click', function () {
-      var panel = $('#filterPanel');
-      var collapsed = panel.classList.toggle('collapsed');
-      this.querySelector('span').textContent = collapsed ? '展开' : '收起';
-    });
-
     $('#btnSearch').addEventListener('click', applyFilters);
     $('#btnReset').addEventListener('click', function () {
       $('#filterContent').value = '';
+      $('#filterBatchId').value = '';
+      $('#filterUid').value = '';
       $('#filterType').value = '';
       $('#filterActivity').value = '';
+      $('#filterActivityText').value = '';
       $('#filterSender').value = '';
       $('#filterStatus').value = '';
       $('#filterDateStart').value = '';
@@ -400,14 +410,13 @@
         return;
       }
       if (target.dataset.action === 'copy-uid') {
+        var selection = window.getSelection ? window.getSelection().toString() : '';
+        if (selection) return;
         var uid = target.dataset.uid;
         if (navigator.clipboard) navigator.clipboard.writeText(uid);
         showToast('已复制 ' + uid);
         return;
       }
-      var detailEl = target.closest('.msg-content-link');
-      if (detailEl) { openDetail(detailEl.dataset.id); return; }
-      if (target.dataset.action === 'detail') { openDetail(target.dataset.id); return; }
       if (target.dataset.action === 'recall') { openRecallConfirm(target.dataset.id); return; }
     });
 
@@ -479,6 +488,115 @@
       });
     }
   }
+
+
+      /* ===== 可搜索下拉框（关联活动） ===== */
+      var ACTIVITY_PAGE_OPTIONS = [
+        { value: 'none', label: '无' },
+        { value: '星火计划2026', label: '星火计划2026' },
+        { value: '0610缓存2.0', label: '0610缓存2.0' },
+        { value: '助力2025全国电赛', label: '助力2025全国电赛' },
+        { value: 'EDA创新大赛', label: 'EDA创新大赛' },
+        { value: '开源峰会2026', label: '开源峰会2026' },
+        { value: '暑期训练营', label: '暑期训练营' }
+      ];
+
+      function initSearchableSelect(wrapId, options, onChange) {
+        var wrap = document.getElementById(wrapId);
+        if (!wrap) return;
+        var textInput = wrap.querySelector('.search-select-input');
+        var hiddenInput = wrap.querySelector('input[type="hidden"]');
+        var dropdown = wrap.querySelector('.search-select-dropdown');
+        var optionsBox = wrap.querySelector('.search-select-options');
+        var selectedValue = '';
+        var selectedLabel = '';
+
+        function renderOptions(list) {
+          optionsBox.innerHTML = '';
+          if (!list.length) {
+            var empty = document.createElement('div');
+            empty.className = 'search-select-option empty';
+            empty.textContent = '无匹配活动';
+            optionsBox.appendChild(empty);
+            return;
+          }
+          list.forEach(function (opt) {
+            var div = document.createElement('div');
+            div.className = 'search-select-option';
+            div.setAttribute('data-value', opt.value);
+            div.textContent = opt.label;
+            div.addEventListener('mousedown', function (e) {
+              e.preventDefault();
+              selectedValue = opt.value;
+              selectedLabel = opt.label;
+              hiddenInput.value = opt.value;
+              textInput.value = opt.label;
+              closeDropdown();
+              if (typeof onChange === 'function') onChange(opt.value);
+            });
+            optionsBox.appendChild(div);
+          });
+        }
+
+        function openDropdown() {
+          dropdown.classList.remove('hidden');
+          wrap.classList.add('open');
+        }
+
+        function closeDropdown() {
+          dropdown.classList.add('hidden');
+          wrap.classList.remove('open');
+        }
+
+        function filterOptions(kw) {
+          var lower = kw.trim().toLowerCase();
+          var filtered = options.filter(function (opt) {
+            return opt.label.toLowerCase().indexOf(lower) !== -1;
+          });
+          renderOptions(filtered);
+        }
+
+        textInput.addEventListener('focus', function () {
+          openDropdown();
+          filterOptions(textInput.value);
+        });
+
+        textInput.addEventListener('input', function () {
+          openDropdown();
+          filterOptions(this.value);
+        });
+
+        textInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            var visible = optionsBox.querySelectorAll('.search-select-option:not(.empty)');
+            if (visible.length === 1) {
+              visible[0].dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+            }
+          } else if (e.key === 'Escape') {
+            closeDropdown();
+          }
+        });
+
+        textInput.addEventListener('blur', function () {
+          setTimeout(function () {
+            if (!wrap.contains(document.activeElement)) {
+              if (textInput.value !== selectedLabel) {
+                textInput.value = selectedLabel;
+              }
+              closeDropdown();
+            }
+          }, 150);
+        });
+
+        document.addEventListener('click', function (e) {
+          if (!wrap.contains(e.target)) closeDropdown();
+        });
+
+        hiddenInput.value = selectedValue;
+      }
+
+  initSearchableSelect('filterActivityWrap', ACTIVITY_PAGE_OPTIONS, applyFilters);
 
   /* ===== 初始化 ===== */
   initDatePicker();

@@ -218,9 +218,9 @@
           </div>
 
           <div class="ff">
-            <label>接收客编</label>
+            <label>接收用户/客编</label>
             <div class="in-wrap">
-              <input type="text" placeholder="请输入客编" id="filterUid">
+              <input type="text" placeholder="请输入用户名/客编" id="filterUid">
             </div>
           </div>
 
@@ -239,22 +239,20 @@
 
           <div class="ff">
             <label>关联活动</label>
-            <div class="in-wrap">
-              <select id="filterActivity">
-                <option value="">全部</option>
-                <option value="none">无</option>
-                <option value="星火计划2026">星火计划2026</option>
-                <option value="电赛活动0301">电赛活动0301</option>
-                <option value="电商活动1201">电商活动1201</option>
-                <option value="周年活动1215">周年活动1215</option>
-              </select>
+            <div class="search-select-wrap" id="filterActivityWrap">
+              <input type="text" class="search-select-input" id="filterActivityText" placeholder="搜索关联活动" autocomplete="off">
+              <input type="hidden" id="filterActivity" value="">
+              <svg class="search-select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              <div class="search-select-dropdown hidden" id="filterActivityDropdown">
+                <div class="search-select-options" id="filterActivityOptions"></div>
+              </div>
             </div>
           </div>
 
           <div class="ff">
-            <label>发送者</label>
+            <label>发送人</label>
             <div class="in-wrap">
-              <input type="text" placeholder="请输入发送者" id="filterSender">
+              <input type="text" placeholder="请输入发送人账号" id="filterSender">
             </div>
           </div>
 
@@ -297,12 +295,6 @@
           </div>
         </div>
 
-        <div class="filter-actions" style="position: relative;">
-          <button type="button" class="btn btn-text toggle-filter" id="toggleFilter" style="position: relative;">
-            <span>收起</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-          </button>
-        </div>
       </section>
 
       <!-- ===== Action Bar ===== -->
@@ -331,9 +323,10 @@
             <col style="width:42px">
             <col style="width:56px">
             <col style="width:160px">
+            <col style="width:180px">
             <col>
             <col style="width:100px">
-            <col style="width:140px">
+            <col style="width:120px">
             <col style="width:100px">
             <col style="width:170px">
             <col style="width:100px">
@@ -344,10 +337,11 @@
               <th class="cell-center"><input type="checkbox" id="checkAll"></th>
               <th class="cell-center">序号</th>
               <th class="cell-center">接收用户/客编</th>
+              <th class="cell-center">批次ID</th>
               <th>通知内容</th>
               <th>通知类型</th>
               <th>关联活动</th>
-              <th>发送者</th>
+              <th>发送人</th>
               <th>发送时间</th>
               <th class="cell-center">发送状态</th>
               <th class="cell-center">操作</th>
@@ -444,7 +438,7 @@
               <span class="ov-value" id="ndActivity">—</span>
             </div>
             <div class="ov-item">
-              <span class="ov-label">发送者</span>
+              <span class="ov-label">发送人</span>
               <span class="ov-value" id="ndSender">—</span>
             </div>
             <div class="ov-item">
@@ -502,7 +496,7 @@
               <span class="ov-value" id="bdActivity">—</span>
             </div>
             <div class="ov-item">
-              <span class="ov-label">发送者</span>
+              <span class="ov-label">发送人</span>
               <span class="ov-value" id="bdSender">—</span>
             </div>
             <div class="ov-item">

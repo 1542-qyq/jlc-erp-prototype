@@ -211,9 +211,16 @@
           </div>
 
           <div class="ff">
-            <label>接收客编</label>
+            <label>批次ID</label>
             <div class="in-wrap">
-              <input type="text" placeholder="请输入客编" id="filterUid">
+              <input type="text" placeholder="请输入批次ID" id="filterBatchId">
+            </div>
+          </div>
+
+          <div class="ff">
+            <label>接收用户/客编</label>
+            <div class="in-wrap">
+              <input type="text" placeholder="请输入用户名/客编" id="filterUid">
             </div>
           </div>
 
@@ -232,22 +239,33 @@
 
           <div class="ff">
             <label>关联活动</label>
-            <div class="in-wrap">
-              <select id="filterActivity">
-                <option value="">全部</option>
-                <option value="none">无</option>
-                <option value="星火计划2026">星火计划2026</option>
-                <option value="电赛活动0301">电赛活动0301</option>
-                <option value="电商活动1201">电商活动1201</option>
-                <option value="周年活动1215">周年活动1215</option>
-              </select>
+            <div class="search-select-wrap" id="filterActivityWrap">
+              <input type="text" class="search-select-input" id="filterActivityText" placeholder="搜索关联活动" autocomplete="off">
+              <input type="hidden" id="filterActivity" value="">
+              <svg class="search-select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              <div class="search-select-dropdown hidden" id="filterActivityDropdown">
+                <div class="search-select-options" id="filterActivityOptions"></div>
+              </div>
             </div>
           </div>
 
           <div class="ff">
             <label>发送人</label>
             <div class="in-wrap">
-              <input type="text" placeholder="请输入发送人" id="filterSender">
+              <input type="text" placeholder="请输入发送人账号" id="filterSender">
+            </div>
+          </div>
+
+          <div class="ff">
+            <label>发送状态</label>
+            <div class="in-wrap">
+              <select id="filterStatus">
+                <option value="">全部</option>
+                <option value="success">发送成功</option>
+                <option value="fail">发送失败</option>
+                <option value="sending">发送中</option>
+                <option value="recalled">已撤回</option>
+              </select>
             </div>
           </div>
 
@@ -277,12 +295,6 @@
           </div>
         </div>
 
-        <div class="filter-actions" style="position: relative;">
-          <button type="button" class="btn btn-text toggle-filter" id="toggleFilter" style="position: relative;">
-            <span>收起</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-          </button>
-        </div>
       </section>
 
       <!-- ===== Action Bar ===== -->
@@ -314,15 +326,16 @@
           <colgroup>
             <col style="width:42px">
             <col style="width:56px">
-            <col style="width:130px">
-            <col>
-            <col style="width:100px">
+            <col style="width:180px">
+            <col style="width:320px">
             <col style="width:90px">
-            <col style="width:140px">
-            <col style="width:100px">
-            <col style="width:170px">
+            <col style="width:80px">
             <col style="width:100px">
             <col style="width:160px">
+            <col style="width:120px">
+            <col style="width:160px">
+            <col style="width:90px">
+            <col style="width:80px">
           </colgroup>
           <thead>
             <tr>
@@ -332,6 +345,7 @@
               <th>通知内容</th>
               <th>通知类型</th>
               <th class="cell-center">发送数量</th>
+              <th class="cell-center">比例</th>
               <th>关联活动</th>
               <th>发送人</th>
               <th>发送时间</th>
@@ -375,7 +389,7 @@
 
   <!-- ===== 新建通知 Modal ===== -->
   <div class="modal-mask" id="newMsgModal" hidden="">
-    <div class="modal modal-new" role="dialog" aria-modal="true" aria-labelledby="newMsgModalTitle" style="width:800px;height:650px;">
+    <div class="modal modal-new" role="dialog" aria-modal="true" aria-labelledby="newMsgModalTitle" style="width:800px;">
       <div class="modal-head">
         <span class="modal-title" id="newMsgModalTitle">新建通知</span>
         <button class="modal-close" id="newMsgModalClose" aria-label="关闭">
@@ -433,8 +447,23 @@
               </button>
               <span class="rt-hint">富文本编辑器</span>
             </div>
-            <textarea class="notify-editor" id="nmContentEditor" placeholder="请输入通知内容..." style="min-height:160px;"></textarea>
+            <textarea class="notify-editor" id="nmContentEditor" placeholder="请输入通知内容..."></textarea>
             <div class="field-error" id="nmErrContent" hidden="">请输入通知内容</div>
+          </div>
+        </div>
+
+        <!-- 是否发送给所有人 -->
+        <div class="modal-row">
+          <label class="modal-label">发送给所有人</label>
+          <div class="type-group" id="nmSendAllGroup">
+            <label class="type-item">
+              <input type="radio" name="nmSendAll" value="yes" id="nmSendAllYes">
+              <span>是</span>
+            </label>
+            <label class="type-item">
+              <input type="radio" name="nmSendAll" value="no" id="nmSendAllNo" checked="">
+              <span>否</span>
+            </label>
           </div>
         </div>
 
@@ -447,7 +476,7 @@
               <button type="button" class="btn btn-primary" id="nmImportBtn">导入</button>
             </div>
             <div class="user-picker">
-              <textarea class="user-search user-search-multiline" id="nmUidInput" rows="4" placeholder="支持粘贴输入；多个客编用;分隔（单次上限200个）" autocomplete="off"></textarea>
+              <textarea class="user-search user-search-multiline" id="nmUidInput" rows="3" placeholder="支持粘贴输入；多个客编用;分隔（单次上限200个）" autocomplete="off"></textarea>
               <input type="file" id="nmImportFile" accept=".xlsx,.xls,.csv,.txt" hidden="">
             </div>
             <div class="field-error" id="nmErrUsers" hidden="">请添加至少一个发送客编</div>
@@ -459,6 +488,52 @@
         <div class="modal-foot-right">
           <button type="button" class="btn btn-default" id="nmModalCancel">取消</button>
           <button type="button" class="btn btn-primary" id="nmModalOk">发送</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 发送确认弹窗 ===== -->
+  <div class="modal-mask" id="nmSendConfirmModal" hidden="">
+    <div class="modal modal-sm" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <span class="modal-title">确认发送</span>
+      </div>
+      <div class="modal-body">
+        <div class="confirm-tip-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#faad14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        </div>
+        <div class="confirm-tip-text">
+          <p>确认发送该通知吗？</p>
+          <p class="recall-hint" id="nmSendConfirmHint">发送后将通知到指定的客编用户</p>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <div class="modal-foot-right">
+          <button type="button" class="btn btn-default" id="nmSendConfirmCancel">取消</button>
+          <button type="button" class="btn btn-primary" id="nmSendConfirmOk">确认发送</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 发送异常弹窗 ===== -->
+  <div class="modal-mask" id="nmSendErrorModal" hidden="">
+    <div class="modal modal-send-error" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <span class="modal-title">发送异常</span>
+        <button class="modal-close" id="nmSendErrorClose" aria-label="关闭">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="send-error-tip" id="nmSendErrorTip">本次发送存在异常，请查看并处理后重试。</p>
+        <div class="send-error-detail" id="nmSendErrorText"></div>
+      </div>
+      <div class="modal-foot">
+        <div class="modal-foot-right">
+          <button type="button" class="btn btn-default" id="nmSendErrorCopy">复制异常信息</button>
+          <button type="button" class="btn btn-primary" id="nmSendErrorOk">知道了</button>
         </div>
       </div>
     </div>
@@ -497,29 +572,6 @@
         <div class="modal-foot-right">
           <button type="button" class="btn btn-default" id="nmLinkCardCancel">取消</button>
           <button type="button" class="btn btn-primary" id="nmLinkCardOk">确定</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== 无效客编提示弹窗 ===== -->
-  <div class="modal-mask" id="nmInvalidUidModal" hidden="">
-    <div class="modal modal-sm" role="dialog" aria-modal="true">
-      <div class="modal-head">
-        <span class="modal-title">客编校验未通过</span>
-      </div>
-      <div class="modal-body">
-        <div class="confirm-tip-icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#faad14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-        </div>
-        <div class="confirm-tip-text">
-          <p>以下 <strong id="nmInvalidCount">1</strong> 个客编无效，请确认后重新发送</p>
-          <div class="invalid-uid-list" id="nmInvalidUidList"><span class="invalid-uid-item">A</span></div>
-        </div>
-      </div>
-      <div class="modal-foot">
-        <div class="modal-foot-right">
-          <button type="button" class="btn btn-default" id="nmInvalidUidOk">我知道了</button>
         </div>
       </div>
     </div>
@@ -772,7 +824,7 @@
             '会员日福利：全场券包低至 3 折，限时抢购。'
           ]
         };
-        var recipientStatuses = ['success', 'success', 'success', 'success', 'success', 'success', 'success', 'fail', 'sending'];
+        var recipientStatuses = ['success', 'success', 'success', 'success', 'success', 'success', 'success', 'success', 'success', 'success', 'fail', 'sending', 'recalled'];
         var failReasons = ['网络连接超时', '账号已注销', '用户拒收', '邮箱不存在', '服务暂不可用'];
 
         var list = [];
@@ -786,7 +838,7 @@
         }
 
         function batchDateCode(d) {
-          return '' + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate());
+          return String(d.getFullYear()).slice(-2) + pad(d.getMonth() + 1) + pad(d.getDate());
         }
 
         for (var i = 0; i < count; i++) {
@@ -905,23 +957,24 @@
           $('#emptyState').hidden = true;
           tbody.innerHTML = pageList.map(function (row, idx) {
             var st = statusInfo(row.status);
-            var contentText = row.content.replace(/\n/g, ' ');
-            if (contentText.length > 36) contentText = contentText.slice(0, 36) + '…';
             var checked = state.selectedIds.indexOf(row.id) >= 0 ? 'checked' : '';
             var canRecall = row.status === 'success';
+            var stats = countRecipientStats(row.recipients);
+            var ratioHtml = '<div class="ratio-text">' + stats.success + '/' + stats.fail + '/' + stats.total + '</div>' +
+                            '<div class="ratio-label">成功/失败/全部</div>';
             return '<tr data-id="' + row.id + '">' +
               '<td class="cell-center"><input type="checkbox" class="row-check" data-id="' + row.id + '" ' + checked + '></td>' +
               '<td class="cell-center" style="color:var(--jlc-text-tertiary)">' + (start + idx + 1) + '</td>' +
-              '<td class="ellipsis" title="' + escapeHtml(row.batchId) + '">' + escapeHtml(row.batchId) + '</td>' +
-              '<td class="ellipsis msg-content-link" data-id="' + row.id + '" title="' + escapeHtml(row.content.replace(/\n/g, ' ')) + '">' + escapeHtml(contentText) + '</td>' +
+              '<td class="cell-center batch-id-cell">' + escapeHtml(row.batchId) + '</td>' +
+              '<td class="msg-content-cell">' + renderContent(row.content) + '</td>' +
               '<td><span class="tag ' + typeClass(row.type) + '">' + typeLabel(row.type) + '</span></td>' +
               '<td class="cell-center">' + row.count + '</td>' +
-              '<td class="ellipsis" title="' + escapeHtml(row.activity || '无') + '">' + escapeHtml(row.activity || '无') + '</td>' +
+              '<td class="cell-center ratio-cell">' + ratioHtml + '</td>' +
+              '<td class="activity-cell">' + escapeHtml(row.activity || '无') + '</td>' +
               '<td class="ellipsis" title="' + escapeHtml(row.sender) + '">' + escapeHtml(row.sender) + '</td>' +
               '<td>' + escapeHtml(row.sendTime) + '</td>' +
               '<td class="cell-center"><span class="' + st.cls + '">' + st.label + '</span></td>' +
               '<td class="cell-center">' +
-                '<span class="link-btn" data-id="' + row.id + '" data-action="detail">详情</span>' +
                 (canRecall ? '<span class="link-btn link-danger" data-id="' + row.id + '" data-action="recall">撤回</span>' : '') +
               '</td>' +
             '</tr>';
@@ -966,14 +1019,18 @@
       function applyFilters() {
         var typeVal = $('#filterType').value;
         var userKw = $('#filterUid').value.trim().toLowerCase();
+        var batchIdKw = $('#filterBatchId').value.trim().toLowerCase();
         var activityVal = $('#filterActivity').value;
         var senderKw = $('#filterSender').value.trim().toLowerCase();
+        var statusVal = $('#filterStatus').value;
         var contentKw = $('#filterContent').value.trim().toLowerCase();
         var dateStart = $('#filterDateStart').value.trim();
         var dateEnd = $('#filterDateEnd').value.trim();
 
         state.filtered = state.data.filter(function (row) {
           if (typeVal && row.type !== typeVal) return false;
+          if (batchIdKw && row.batchId.toLowerCase().indexOf(batchIdKw) === -1) return false;
+          if (statusVal && row.status !== statusVal) return false;
           if (activityVal === 'none') {
             if (row.activity) return false;
           } else if (activityVal) {
@@ -1002,8 +1059,11 @@
         $('#filterContent').value = '';
         $('#filterType').value = '';
         $('#filterUid').value = '';
+        $('#filterBatchId').value = '';
         $('#filterActivity').value = '';
+        $('#filterActivityText').value = '';
         $('#filterSender').value = '';
+        $('#filterStatus').value = '';
         $('#filterDateStart').value = '';
         $('#filterDateEnd').value = '';
         applyFilters();
@@ -1122,11 +1182,7 @@
           }
           return;
         }
-        var contentEl = e.target.closest('.msg-content-link');
-        if (contentEl) {
-          var id2 = parseInt(contentEl.dataset.id, 10);
-          openDetail(id2);
-        }
+
       });
 
       /* ===== 批次详情抽屉 ===== */
@@ -1301,9 +1357,11 @@
         var toast = $('#nmToast');
         toast.textContent = msg;
         toast.className = 'toast show' + (type ? ' toast-' + type : '');
+        toast.hidden = false;
         clearTimeout(toast._t);
         toast._t = setTimeout(function () {
           toast.classList.remove('show');
+          toast.hidden = true;
         }, 2200);
       }
 
@@ -1313,7 +1371,7 @@
       var _batchSendSeq = 0;
       function genBatchId() {
         var now = new Date();
-        var code = '' + now.getFullYear() + pad2(now.getMonth() + 1) + pad2(now.getDate());
+        var code = String(now.getFullYear()).slice(-2) + pad2(now.getMonth() + 1) + pad2(now.getDate());
         _batchSendSeq++;
         if (_batchSendSeq > 999) _batchSendSeq = 1;
         return 'B' + code + pad3(_batchSendSeq);
@@ -1334,6 +1392,10 @@
         var btnCancel = $('#nmModalCancel');
         var btnOk = $('#nmModalOk');
 
+        var sendConfirmModal = $('#nmSendConfirmModal');
+        var sendConfirmCancel = $('#nmSendConfirmCancel');
+        var sendConfirmOk = $('#nmSendConfirmOk');
+
         var typeInputs = $$('#nmTypeGroup input[name="nmNotifyType"]');
         var activityInput = $('#nmActivity');
         var contentEditor = $('#nmContentEditor');
@@ -1342,6 +1404,26 @@
         var errUsers = $('#nmErrUsers');
 
         var uidInput = $('#nmUidInput');
+        var sendAllInputs = $$('#nmSendAllGroup input[name="nmSendAll"]');
+        var importBtn = $('#nmImportBtn');
+
+        function isSendAll() {
+          for (var i = 0; i < sendAllInputs.length; i++) {
+            if (sendAllInputs[i].checked && sendAllInputs[i].value === 'yes') return true;
+          }
+          return false;
+        }
+
+        function updateUidInputState() {
+          var all = isSendAll();
+          uidInput.disabled = all;
+          importBtn.disabled = all;
+          if (all) {
+            uidInput.value = '';
+            clearErr(errUsers);
+            uidInput.classList.remove('input-error');
+          }
+        }
 
         var linkCardModal = $('#nmLinkCardModal');
         var linkUrlInput = $('#nmLinkUrl');
@@ -1349,10 +1431,6 @@
         var errLinkUrl = $('#nmErrLinkUrl');
         var errLinkTitle = $('#nmErrLinkTitle');
         var pendingLinkSel = { start: 0, end: 0 };   // 记录选中文本的位置，用于插入链接
-
-        var invalidModal = $('#nmInvalidUidModal');
-        var invalidCountEl = $('#nmInvalidCount');
-        var invalidListEl = $('#nmInvalidUidList');
 
         /* ---------- 工具 ---------- */
         function getSelectedType() {
@@ -1563,6 +1641,8 @@
           contentEditor.value = '';
           contentEditor.classList.remove('input-error');
           uidInput.value = '';
+          sendAllInputs.forEach(function (i) { i.checked = i.value === 'no'; });
+          updateUidInputState();
           clearErr(errType);
           clearErr(errContent);
           clearErr(errUsers);
@@ -1593,8 +1673,12 @@
             contentEditor.classList.remove('input-error');
           }
 
-          normalizeUidInput('');
-          if (!splitUids(uidInput.value).length) { setErr(errUsers); hasError = true; }
+          if (!isSendAll()) {
+            normalizeUidInput('');
+            if (!splitUids(uidInput.value).length) { setErr(errUsers); hasError = true; }
+          } else {
+            clearErr(errUsers);
+          }
 
           if (hasError) nmShowToast('请完善必填项', 'error');
           return !hasError;
@@ -1609,39 +1693,101 @@
         typeInputs.forEach(function (i) {
           i.addEventListener('change', function () { clearErr(errType); });
         });
-
-        /* ---------- 发送（无确认，点发送即发） ---------- */
-        btnOk.addEventListener('click', function () {
-          if (!validateForm()) return;
-          doSend();
+        sendAllInputs.forEach(function (i) {
+          i.addEventListener('change', function () { updateUidInputState(); });
         });
 
-        /* ---------- 无效客编提示 ---------- */
-        function showInvalidUids(invalidList) {
-          invalidCountEl.textContent = invalidList.length;
-          invalidListEl.innerHTML = invalidList.map(function (uid) {
-            return '<span class="invalid-uid-item">' + escapeHtml(uid) + '</span>';
-          }).join('');
-          invalidModal.hidden = false;
+        /* ---------- 发送确认弹窗 ---------- */
+        function openSendConfirm() {
+          if (!validateForm()) return;
+          $('#nmSendConfirmHint').textContent = isSendAll()
+            ? '发送后将通知到全部用户'
+            : '发送后将通知到指定的客编用户';
+          sendConfirmModal.hidden = false;
         }
-        $('#nmInvalidUidOk').addEventListener('click', function () { invalidModal.hidden = true; });
-        invalidModal.addEventListener('click', function (e) {
-          if (e.target === invalidModal) invalidModal.hidden = true;
+        btnOk.addEventListener('click', openSendConfirm);
+
+        sendConfirmCancel.addEventListener('click', function () { sendConfirmModal.hidden = true; });
+        sendConfirmModal.addEventListener('click', function (e) {
+          if (e.target === sendConfirmModal) sendConfirmModal.hidden = true;
+        });
+        sendConfirmOk.addEventListener('click', function () {
+          sendConfirmModal.hidden = true;
+          btnOk.disabled = true;
+          btnOk.textContent = '发送中...';
+          setTimeout(function () {
+            doSend();
+            btnOk.disabled = false;
+            btnOk.textContent = '发送';
+          }, 1200);
+        });
+
+        /* ---------- 发送异常弹窗 ---------- */
+        var sendErrorModal = $('#nmSendErrorModal');
+        var sendErrorTip = $('#nmSendErrorTip');
+        var sendErrorText = $('#nmSendErrorText');
+        var sendErrorCopy = $('#nmSendErrorCopy');
+        var sendErrorOk = $('#nmSendErrorOk');
+        var sendErrorClose = $('#nmSendErrorClose');
+
+        function openSendErrorModal(message, uids) {
+          sendErrorTip.textContent = message;
+          sendErrorText.textContent = (uids || []).join('\n');
+          sendErrorCopy.textContent = '复制异常信息';
+          sendErrorModal.hidden = false;
+        }
+        function closeSendErrorModal() { sendErrorModal.hidden = true; }
+        sendErrorOk.addEventListener('click', closeSendErrorModal);
+        sendErrorClose.addEventListener('click', closeSendErrorModal);
+        sendErrorModal.addEventListener('click', function (e) {
+          if (e.target === sendErrorModal) closeSendErrorModal();
+        });
+
+        function copyToClipboard(text, onSuccess, onError) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(onSuccess).catch(function () { fallbackCopy(text, onSuccess, onError); });
+          } else {
+            fallbackCopy(text, onSuccess, onError);
+          }
+        }
+        function fallbackCopy(text, onSuccess, onError) {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0;';
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.setSelectionRange(0, text.length);
+          try {
+            if (document.execCommand('copy')) onSuccess(); else onError();
+          } catch (err) { onError(); }
+          document.body.removeChild(ta);
+        }
+        function selectElementText(el) {
+          var selection = window.getSelection();
+          var range = document.createRange();
+          range.selectNodeContents(el);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+        sendErrorCopy.addEventListener('click', function () {
+          copyToClipboard(sendErrorText.textContent, function () {
+            sendErrorCopy.textContent = '已复制';
+            setTimeout(function () { sendErrorCopy.textContent = '复制异常信息'; }, 1800);
+          }, function () {
+            selectElementText(sendErrorText);
+            nmShowToast('复制失败，已选中异常信息，请使用 Ctrl+C 手动复制', 'error');
+          });
         });
 
         /* ---------- 发送 ---------- */
-        function mockSend() {
-          var success = [];
-          var fail = [];
-          var failReasons = ['用户状态异常', '系统异常', '网络连接超时', '账号已注销'];
-          getUidList().forEach(function (uid) {
-            if (Math.random() < 0.92) {
-              success.push({ uid: uid });
-            } else {
-              fail.push({ uid: uid, reason: failReasons[Math.floor(Math.random() * failReasons.length)] });
-            }
-          });
-          return { success: success, fail: fail };
+        function mockSend(uids) {
+          // 模拟整体发送结果：85% 成功，15% 失败
+          if (Math.random() < 0.85) {
+            var success = uids.map(function (uid) { return { uid: uid }; });
+            return { ok: true, success: success, fail: [] };
+          }
+          return { ok: false, success: [], fail: [] };
         }
 
         function userNameOf(uid) {
@@ -1649,76 +1795,97 @@
           return hit ? hit.name : uid;
         }
 
+        function findDuplicateUids(uids) {
+          var seen = {};
+          var duplicates = [];
+          state.data.forEach(function (batch) {
+            (batch.recipients || []).forEach(function (r) {
+              if (uids.indexOf(r.uid) !== -1) {
+                if (!seen[r.uid]) {
+                  seen[r.uid] = true;
+                  duplicates.push(r.uid);
+                }
+              }
+            });
+          });
+          return duplicates;
+        }
+
+        function nmShowToastForSeconds(msg, type, seconds) {
+          var toast = $('#nmToast');
+          toast.textContent = msg;
+          toast.className = 'toast show' + (type ? ' toast-' + type : '');
+          toast.hidden = false;
+          clearTimeout(toast._t);
+          toast._t = setTimeout(function () {
+            toast.classList.remove('show');
+            toast.hidden = true;
+          }, (seconds || 4) * 1000);
+        }
+
         function doSend() {
-          // 1. 发送前校验客编有效性，无效则拦截并提示
-          var check = validateUids(getUidList());
+          var sendAll = isSendAll();
+          var uids = sendAll ? MOCK_USERS.map(function (u) { return u.uid; }) : getUidList();
+
+          // 1. 客编有效性校验
+          var check = validateUids(uids);
           if (check.invalid.length) {
-            showInvalidUids(check.invalid);
+            openSendErrorModal('客编不存在，请检查后重试。', check.invalid);
             return;
           }
-          // 2. 模拟发送过程
-          btnOk.disabled = true;
-          btnOk.textContent = '发送中...';
-          setTimeout(function () {
-            btnOk.disabled = false;
-            btnOk.textContent = '发送';
-            var result = mockSend();
-            var failList = result.fail.map(function (f) {
-              return { name: userNameOf(f.uid), username: userNameOf(f.uid), uid: f.uid, reason: f.reason };
-            });
-            // 3. 生成一条批次发送记录，插入列表顶部
-            var content = contentEditor.value.trim();
-            var nowStr = nmFormatTime(new Date().toISOString());
-            var type = getSelectedType();
-            var activity = activityInput.value === 'none' ? '' : activityInput.value.trim();
-            var sender = '当前用户';
 
-            var recipients = [];
-            result.success.forEach(function (u) {
-              recipients.push({
-                name: userNameOf(u.uid),
-                username: userNameOf(u.uid),
-                uid: u.uid,
-                status: 'success'
-              });
-            });
-            result.fail.forEach(function (f) {
-              recipients.push({
-                name: userNameOf(f.uid),
-                username: userNameOf(f.uid),
-                uid: f.uid,
-                status: 'fail',
-                failReason: f.reason
-              });
-            });
+          // 2. 客编重复性校验（与已发送批次比较）
+          var duplicates = findDuplicateUids(uids);
+          if (duplicates.length) {
+            openSendErrorModal('存在用户重复发送通知，请处理后重试。', duplicates);
+            return;
+          }
 
-            var batchStatus = 'success';
-            if (recipients.some(function (r) { return r.status === 'sending'; })) batchStatus = 'sending';
-            else if (recipients.some(function (r) { return r.status === 'fail'; })) batchStatus = 'fail';
+          // 3. 模拟发送
+          var result = mockSend(uids);
+          if (!result.ok) {
+            openSendErrorModal('发送失败，共 ' + uids.length + ' 位用户未发送成功，请稍后重试。', uids);
+            return;
+          }
 
-            var newBatch = {
-              id: Date.now(),
-              batchId: genBatchId(),
-              type: type,
-              activity: activity,
-              content: content,
-              sender: sender,
-              sendTime: nowStr,
-              status: batchStatus,
-              count: recipients.length,
-              recipients: recipients
+          // 4. 生成批次记录
+          var content = contentEditor.value.trim();
+          var nowStr = nmFormatTime(new Date().toISOString());
+          var type = getSelectedType();
+          var activity = activityInput.value === 'none' ? '' : activityInput.value.trim();
+          var sender = '当前用户';
+
+          var recipients = result.success.map(function (u) {
+            return {
+              name: userNameOf(u.uid),
+              username: userNameOf(u.uid),
+              uid: u.uid,
+              status: 'success'
             };
-            state.data.unshift(newBatch);
+          });
 
-            // 4. 刷新列表并反馈结果
-            applyFilters();
-            showSendResultAlert(result.success.length, result.fail.length, failList);
-            modal.hidden = true;
-            // 5. 展示接收方视角的通知效果
-            if (recipients.length > 0) {
-              showEffect({ type: type, sendTime: nowStr, content: content, sender: sender });
-            }
-          }, 1200);
+          var newBatch = {
+            id: Date.now(),
+            batchId: genBatchId(),
+            type: type,
+            activity: activity,
+            content: content,
+            sender: sender,
+            sendTime: nowStr,
+            status: 'success',
+            count: recipients.length,
+            recipients: recipients
+          };
+          state.data.unshift(newBatch);
+
+          // 5. 刷新列表并反馈结果
+          applyFilters();
+          showSendResultAlert('发送成功', 'success');
+          modal.hidden = true;
+          // 6. 展示接收方视角的通知效果
+          if (recipients.length > 0) {
+            showEffect({ type: type, sendTime: nowStr, content: content, sender: sender });
+          }
         }
 
         /* ---------- 通知效果展示（模拟接收方视角） ---------- */
@@ -1742,41 +1909,23 @@
           if (e.target === effectModal) effectModal.hidden = true;
         });
 
-        var _lastFailList = [];
-
-        function showSendResultAlert(successCount, failCount, failList) {
+        function showSendResultAlert(msg, type) {
           var alert = $('#nmSendResultAlert');
           var textEl = $('#nmSendResultText');
-          var exportBtn = $('#nmSendResultExportBtn');
+          textEl.textContent = msg;
 
-          _lastFailList = failList || [];
-
-          var html = '';
-          if (successCount > 0 && failCount > 0) {
-            html = '通知发送成功 <span class="rs-success-num">' + successCount + '</span> 人，失败 <span class="rs-fail-num">' + failCount + '</span> 人';
-          } else if (successCount > 0) {
-            html = '通知已成功发送';
-          } else {
-            html = '通知发送失败';
-          }
-          textEl.innerHTML = html;
-
-          alert.classList.remove('has-fail', 'all-fail');
-          if (successCount > 0 && failCount > 0) {
-            alert.classList.add('has-fail');
-          } else if (successCount === 0) {
+          alert.classList.remove('has-fail', 'all-fail', 'is-success');
+          if (type === 'fail') {
             alert.classList.add('all-fail');
+          } else if (type === 'success') {
+            alert.classList.add('is-success');
           }
-
-          exportBtn.hidden = !(failCount > 0 && failList && failList.length);
 
           alert.hidden = false;
           clearTimeout(alert._t);
           alert._t = setTimeout(function () {
             alert.hidden = true;
           }, 4000);
-
-          exportBtn.onclick = exportFailList;
         }
 
         function exportFailList() {
@@ -1797,6 +1946,115 @@
           URL.revokeObjectURL(url);
         }
       }
+
+
+      /* ===== 可搜索下拉框（关联活动） ===== */
+      var ACTIVITY_PAGE_OPTIONS = [
+        { value: 'none', label: '无' },
+        { value: '星火计划2026', label: '星火计划2026' },
+        { value: '0610缓存2.0', label: '0610缓存2.0' },
+        { value: '助力2025全国电赛', label: '助力2025全国电赛' },
+        { value: 'EDA创新大赛', label: 'EDA创新大赛' },
+        { value: '开源峰会2026', label: '开源峰会2026' },
+        { value: '暑期训练营', label: '暑期训练营' }
+      ];
+
+      function initSearchableSelect(wrapId, options, onChange) {
+        var wrap = document.getElementById(wrapId);
+        if (!wrap) return;
+        var textInput = wrap.querySelector('.search-select-input');
+        var hiddenInput = wrap.querySelector('input[type="hidden"]');
+        var dropdown = wrap.querySelector('.search-select-dropdown');
+        var optionsBox = wrap.querySelector('.search-select-options');
+        var selectedValue = '';
+        var selectedLabel = '';
+
+        function renderOptions(list) {
+          optionsBox.innerHTML = '';
+          if (!list.length) {
+            var empty = document.createElement('div');
+            empty.className = 'search-select-option empty';
+            empty.textContent = '无匹配活动';
+            optionsBox.appendChild(empty);
+            return;
+          }
+          list.forEach(function (opt) {
+            var div = document.createElement('div');
+            div.className = 'search-select-option';
+            div.setAttribute('data-value', opt.value);
+            div.textContent = opt.label;
+            div.addEventListener('mousedown', function (e) {
+              e.preventDefault();
+              selectedValue = opt.value;
+              selectedLabel = opt.label;
+              hiddenInput.value = opt.value;
+              textInput.value = opt.label;
+              closeDropdown();
+              if (typeof onChange === 'function') onChange(opt.value);
+            });
+            optionsBox.appendChild(div);
+          });
+        }
+
+        function openDropdown() {
+          dropdown.classList.remove('hidden');
+          wrap.classList.add('open');
+        }
+
+        function closeDropdown() {
+          dropdown.classList.add('hidden');
+          wrap.classList.remove('open');
+        }
+
+        function filterOptions(kw) {
+          var lower = kw.trim().toLowerCase();
+          var filtered = options.filter(function (opt) {
+            return opt.label.toLowerCase().indexOf(lower) !== -1;
+          });
+          renderOptions(filtered);
+        }
+
+        textInput.addEventListener('focus', function () {
+          openDropdown();
+          filterOptions(textInput.value);
+        });
+
+        textInput.addEventListener('input', function () {
+          openDropdown();
+          filterOptions(this.value);
+        });
+
+        textInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            var visible = optionsBox.querySelectorAll('.search-select-option:not(.empty)');
+            if (visible.length === 1) {
+              visible[0].dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+            }
+          } else if (e.key === 'Escape') {
+            closeDropdown();
+          }
+        });
+
+        textInput.addEventListener('blur', function () {
+          setTimeout(function () {
+            if (!wrap.contains(document.activeElement)) {
+              if (textInput.value !== selectedLabel) {
+                textInput.value = selectedLabel;
+              }
+              closeDropdown();
+            }
+          }, 150);
+        });
+
+        document.addEventListener('click', function (e) {
+          if (!wrap.contains(e.target)) closeDropdown();
+        });
+
+        hiddenInput.value = selectedValue;
+      }
+
+      initSearchableSelect('filterActivityWrap', ACTIVITY_PAGE_OPTIONS, applyFilters);
 
       /* ===== Init ===== */
       setupNewMsgModal();

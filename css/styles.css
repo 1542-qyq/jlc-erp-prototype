@@ -594,12 +594,13 @@ svg { flex-shrink: 0; }
   grid-template-columns: repeat(4, 1fr);
   gap: 14px 18px;
   transition: max-height var(--jlc-transition-slow);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .filter-panel.collapsed .filter-grid {
   max-height: 0 !important;
   padding-bottom: 0;
+  overflow: hidden;
 }
 
 .ff {
@@ -1791,6 +1792,12 @@ svg { flex-shrink: 0; }
   background: #fff2f0;
   border-color: #ffccc7;
   color: #ff4d4f;
+}
+
+.send-result-alert.is-success {
+  background: #f6ffed;
+  border-color: #b7eb8f;
+  color: #52c41a;
 }
 
 .send-result-content {
